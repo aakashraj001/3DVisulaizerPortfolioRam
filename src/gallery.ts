@@ -130,6 +130,7 @@ export async function mountGallery(root: HTMLElement): Promise<void> {
 
   const filterHost = root.querySelector<HTMLElement>('.gallery__filters')
   if (filterHost) buildFilters(filterHost, cats)
+  mountIndexBar(cats) // fixed sticky filter bar (appears while scrolling the gallery)
 
   const grid = root.querySelector<HTMLElement>('.gallery__grid')
   if (!grid) return
@@ -152,25 +153,55 @@ export function setGalleryParallax(speed: number, lag: number): void {
 }
 
 /**
- * Pin the Index header (title + category filters) so it stays under the top
- * nav while the gallery scrolls — keeping the filters reachable the whole time.
- * Uses ScrollTrigger pinning because CSS `position: sticky` breaks inside the
- * transformed ScrollSmoother wrapper. Safe in all branches (works with or
- * without the smoother) and auto-reverted by gsap.matchMedia.
+ * Build a fixed filter bar that sits just below the persistent nav and appears
+ * once the in-flow Index header has scrolled out of view — keeping the category
+ * filters reachable throughout the gallery. It lives on <body> (OUTSIDE the
+ * transformed ScrollSmoother wrapper) so `position: fixed` is reliable — no
+ * ScrollTrigger pinning (which mis-positions an in-flow element that has large
+ * section padding, and jumps with pinSpacing:false). Reuses the same `.filter`
+ * buttons, so the active state stays in sync via applyFilter().
  */
-export function pinIndexHeader(): void {
+function syncNavHeight(): void {
+  const nav = document.querySelector<HTMLElement>('.nav')
+  document.documentElement.style.setProperty('--nav-h', `${nav?.offsetHeight ?? 64}px`)
+}
+
+export function mountIndexBar(cats: Category[]): void {
+  if (document.querySelector('.index-bar')) return
+  const bar = document.createElement('div')
+  bar.className = 'index-bar'
+  bar.setAttribute('aria-hidden', 'true')
+
+  const label = document.createElement('span')
+  label.className = 'index-bar__label label label--wide'
+  label.textContent = 'Index'
+
+  const filters = document.createElement('div')
+  filters.className = 'index-bar__filters'
+
+  bar.append(label, filters)
+  document.body.appendChild(bar)
+  buildFilters(filters, cats)
+
+  syncNavHeight()
+  window.addEventListener('resize', syncNavHeight)
+}
+
+/** Show the fixed filter bar while scrolling within the gallery. All branches. */
+export function revealIndexBar(): void {
+  const bar = document.querySelector<HTMLElement>('.index-bar')
   const head = document.querySelector<HTMLElement>('.gallery__head')
   const gallery = document.querySelector<HTMLElement>('.gallery')
-  if (!head || !gallery) return
-  // Don't pin when there's barely anything to scroll past (e.g. a filtered
-  // single row) — only worth it when the gallery is taller than the viewport.
+  if (!bar || !head || !gallery) return
   ScrollTrigger.create({
-    trigger: gallery,
-    start: 'top top+=72', // sit just below the persistent top nav
-    end: 'bottom top+=72',
-    pin: head,
-    pinSpacing: false,
-    onToggle: (self) => head.classList.toggle('is-pinned', self.isActive),
+    trigger: head,
+    start: 'bottom top+=74', // in-flow Index header has scrolled under the nav
+    endTrigger: gallery,
+    end: 'bottom top+=120', // gallery is nearly scrolled past
+    onToggle: (self) => {
+      bar.classList.toggle('is-visible', self.isActive)
+      bar.setAttribute('aria-hidden', String(!self.isActive))
+    },
   })
 }
 

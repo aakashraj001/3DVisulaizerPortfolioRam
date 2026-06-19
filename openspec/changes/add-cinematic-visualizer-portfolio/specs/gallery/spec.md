@@ -4,17 +4,17 @@
 
 ### Requirement: The Index & Category Filters
 
-The site SHALL render an "Index" section with a heading and category filters (All / Architecture / Interior / Product / Experimental) as tracked-caps text links, where the active filter shows a gilt underline. The filter set SHALL be derived from the project data's `category` values (plus "All"), not a hardcoded list, and selecting a filter SHALL show only matching pieces and re-run the entrance reveals for the now-visible set. The Index header (heading + filters) SHALL stay pinned beneath the top navigation while the gallery is scrolled, so the filters remain reachable throughout the gallery; because the smooth-scroll wrapper is transformed, this SHALL be implemented via ScrollTrigger pinning rather than CSS `position: sticky`, and the header SHALL release when the gallery scrolls past.
+The site SHALL render an "Index" section with a heading and category filters (All / Architecture / Interior / Product / Experimental) as tracked-caps text links, where the active filter shows a gilt underline. The filter set SHALL be derived from the project data's `category` values (plus "All"), not a hardcoded list, and selecting a filter SHALL show only matching pieces and re-run the entrance reveals for the now-visible set. So the filters stay reachable throughout the gallery, a compact filter bar SHALL appear fixed just beneath the persistent top navigation once the in-flow Index header has scrolled out of view, and SHALL hide again above the gallery and once the gallery has scrolled past. This bar SHALL be a `position: fixed` element rendered OUTSIDE the transformed smooth-scroll wrapper (not CSS `position: sticky`, which the transform breaks, and not an in-flow ScrollTrigger pin, which mis-positions because the section has large padding); its filter buttons SHALL share active state with the in-flow filters.
 
 #### Scenario: Filtering by category
 
 - **WHEN** the visitor activates a category filter (e.g. Interior)
 - **THEN** only pieces in that category remain visible, the active link gains a gilt underline, and the visible pieces re-reveal
 
-#### Scenario: Index header stays accessible while scrolling the gallery
+#### Scenario: Filters stay accessible while scrolling the gallery
 
-- **WHEN** the visitor scrolls down through the gallery pieces
-- **THEN** the Index header (heading + filters) remains pinned just beneath the top nav with the pieces scrolling under it, so any filter can be activated at any point, and it releases once the gallery has scrolled past
+- **WHEN** the visitor scrolls down past the in-flow Index header into the gallery pieces
+- **THEN** a compact filter bar appears fixed just beneath the top nav (filters reachable at any point), and **WHEN** the visitor scrolls back above the gallery or past its end the bar hides again
 
 #### Scenario: Filters reflect the data
 

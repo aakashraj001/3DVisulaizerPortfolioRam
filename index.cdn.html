@@ -183,6 +183,28 @@
         fh.appendChild(b)
       })
 
+      // Fixed filter bar (appears while scrolling the gallery) — outside the transform.
+      const indexBar = document.createElement('div')
+      indexBar.className = 'index-bar'
+      indexBar.setAttribute('aria-hidden', 'true')
+      indexBar.innerHTML = '<span class="index-bar__label label label--wide">Index</span><div class="index-bar__filters"></div>'
+      document.body.appendChild(indexBar)
+      const barFilters = indexBar.querySelector('.index-bar__filters')
+      ;['all', ...cats].forEach((f) => {
+        const b = document.createElement('button')
+        b.type = 'button'; b.className = 'filter label label--wide'; b.dataset.filter = f
+        b.textContent = lbl(f); b.setAttribute('aria-pressed', String(f === 'all'))
+        if (f === 'all') b.classList.add('is-active')
+        b.onclick = () => applyFilter(f)
+        barFilters.appendChild(b)
+      })
+      document.documentElement.style.setProperty('--nav-h', (document.querySelector('.nav')?.offsetHeight || 64) + 'px')
+      ScrollTrigger.create({
+        trigger: '.gallery__head', start: 'bottom top+=74',
+        endTrigger: '.gallery', end: 'bottom top+=120',
+        onToggle: (self) => { indexBar.classList.toggle('is-visible', self.isActive); indexBar.setAttribute('aria-hidden', String(!self.isActive)) },
+      })
+
       // Grid
       const grid = document.querySelector('.gallery__grid')
       const pieces = []

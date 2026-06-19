@@ -47,14 +47,55 @@
   margin-bottom: clamp(3rem, 8vw, 6rem);
   padding-bottom: 1.5rem;
   border-bottom: 1px solid var(--line);
-  background: var(--void); /* seamless in flow; covers pieces when pinned */
 }
-/* Pinned (sticky) Index header while scrolling the gallery — sits under the nav. */
-.gallery__head.is-pinned {
-  z-index: 50;
-  padding-top: 1rem;
+
+/* Fixed filter bar — sits just below the persistent nav, slides in once the
+   in-flow Index header scrolls away, so filters stay reachable in the gallery. */
+.index-bar {
+  position: fixed;
+  top: var(--nav-h, 64px);
+  left: 0;
+  right: 0;
+  z-index: 55; /* below the nav (60), above content */
+  display: flex;
+  align-items: center;
+  gap: clamp(1.5rem, 4vw, 3rem);
+  padding: 0.85rem var(--gutter);
   background: var(--void-90);
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line);
+  transform: translateY(-110%);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform var(--dur-med) var(--ease), opacity var(--dur-med) var(--ease);
+}
+.index-bar.is-visible {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+.index-bar__label {
+  color: var(--gilt);
+  flex-shrink: 0;
+}
+.index-bar__filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(1rem, 2vw, 1.75rem);
+}
+@media (prefers-reduced-motion: reduce) {
+  .index-bar {
+    transition: none;
+  }
+}
+@media (max-width: 767px) {
+  .index-bar {
+    gap: 1rem;
+    overflow-x: auto;
+  }
+  .index-bar__label {
+    display: none;
+  }
 }
 .gallery__title {
   font-size: var(--fs-display);

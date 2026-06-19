@@ -12,7 +12,7 @@ import '../styles/gallery.css'
 
 import { registerMotion, teardownMotion, prefersReducedMotion } from './motion'
 import { createSmoother, killSmoother } from './smoothScroll'
-import { mountGallery, animateGallery, setGalleryParallax, pinIndexHeader } from './gallery'
+import { mountGallery, animateGallery, setGalleryParallax, revealIndexBar } from './gallery'
 import { initLightbox } from './lightbox'
 import { mountNav, animateNav } from './nav'
 import { mountHero, playHeroIntro, animateHeroScroll } from './hero'
@@ -39,7 +39,7 @@ async function boot(): Promise<void> {
       animateNav()
       animateReveals()
       animateGallery()
-      pinIndexHeader()
+      revealIndexBar()
       disposers.push(animateStatement())
       disposers.push(animateContact())
       disposers.push(initCursor())
@@ -73,7 +73,7 @@ async function boot(): Promise<void> {
       animateNav()
       animateReveals()
       animateGallery()
-      pinIndexHeader()
+      revealIndexBar()
       disposers.push(animateStatement())
       disposers.push(animateContact())
       animateHeroScroll()
@@ -89,7 +89,7 @@ async function boot(): Promise<void> {
       // visible (no .js-motion class). The static hero image stands in for WebGL.
       // Nav still persists + scroll-spies (ScrollTrigger on native scroll).
       animateNav()
-      pinIndexHeader()
+      revealIndexBar()
       return () => {}
     },
   })
