@@ -43,7 +43,7 @@ async function boot(): Promise<void> {
       disposers.push(animateContact())
       disposers.push(initCursor())
       animateHeroScroll()
-      playHeroIntro(preloaderDone)
+      disposers.push(playHeroIntro(preloaderDone))
 
       // Lazy WebGL hero — Three.js loads in its own chunk, desktop only.
       let disposeHero3D: (() => void) | null = null
@@ -75,7 +75,7 @@ async function boot(): Promise<void> {
       disposers.push(animateStatement())
       disposers.push(animateContact())
       animateHeroScroll()
-      playHeroIntro(preloaderDone)
+      disposers.push(playHeroIntro(preloaderDone))
       return () => {
         disposers.forEach((d) => d())
         killSmoother()

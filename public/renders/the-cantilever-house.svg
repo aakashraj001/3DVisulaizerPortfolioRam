@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2000" height="1400" viewBox="0 0 2000 1400" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#332a1d"/><stop offset="0.55" stop-color="#1c1813"/><stop offset="1" stop-color="#14110e"/>
+    </linearGradient>
+    <radialGradient id="vig" cx="0.5" cy="0.42" r="0.8">
+      <stop offset="0.5" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#14110e" stop-opacity="0.6"/>
+    </radialGradient>
+    <linearGradient id="surf" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#8c7048"/><stop offset="0.6" stop-color="#6b5639"/><stop offset="1" stop-color="#332a1d"/>
+    </linearGradient>
+    <linearGradient id="surfH" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#8c7048"/><stop offset="0.7" stop-color="#332a1d"/><stop offset="1" stop-color="#1a1610"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.38949514643056315" cy="0.2135146509995684" r="0.75">
+    <stop offset="0" stop-color="#b89b6e" stop-opacity="0.7"/>
+    <stop offset="0.45" stop-color="#b89b6e" stop-opacity="0.175"/>
+    <stop offset="1" stop-color="#b89b6e" stop-opacity="0"/></radialGradient>
+    <filter id="gr"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/>
+  <feColorMatrix type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.45 0"/></filter>
+  </defs>
+  <rect width="2000" height="1400" fill="url(#bg)"/>
+  <rect width="2000" height="1400" fill="url(#glow)"/><polygon points="252.38915126770735,610.6053871195763 718.1025854311883,419.0196931278333 718.1025854311883,1400 252.38915126770735,1400" fill="url(#surf)" opacity="0.85"/>
+      <line x1="718.1025854311883" y1="419.0196931278333" x2="718.1025854311883" y2="1400" stroke="#b89b6e" stroke-opacity="0.65" stroke-width="2"/><polygon points="814.8872978799045,397.02018663007766 1331.1774828471243,272.86538480594754 1331.1774828471243,1400 814.8872978799045,1400" fill="url(#surf)" opacity="0.6699999999999999"/>
+      <line x1="1331.1774828471243" y1="272.86538480594754" x2="1331.1774828471243" y2="1400" stroke="#b89b6e" stroke-opacity="0.65" stroke-width="2"/><polygon points="1290.0316115282476,540.6576404981315 1843.497930150479,376.70253336336464 1843.497930150479,1400 1290.0316115282476,1400" fill="url(#surf)" opacity="0.49"/>
+      <line x1="1843.497930150479" y1="376.70253336336464" x2="1843.497930150479" y2="1400" stroke="#b89b6e" stroke-opacity="0.65" stroke-width="2"/>
+     <rect x="0" y="1232" width="2000" height="168" fill="#14110e" opacity="0.45"/>
+  <rect width="2000" height="1400" fill="url(#vig)"/>
+  <rect width="2000" height="1400" filter="url(#gr)" opacity="0.05"/>
+</svg>

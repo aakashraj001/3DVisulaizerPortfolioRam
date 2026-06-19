@@ -37,16 +37,18 @@ function pieceMarkup(project: Project, index: number): HTMLElement {
     `View ${project.title} — ${categoryLabel(project.category)}, ${project.year}`,
   )
 
-  // Image media gets the slower parallax speed (declarative).
+  // Image media gets the slower parallax speed (declarative); the image block
+  // drifts while the frame (a sibling, below) stays fixed.
   const media = renderImage(project.image, { sizes: GRID_SIZES, className: 'piece__media' })
   media.dataset.speed = '0.9'
+  button.appendChild(media)
 
+  // Gilt hover frame — sibling of the parallaxed media so it does NOT move.
   const frame = document.createElement('span')
   frame.className = 'piece__frame'
   frame.setAttribute('aria-hidden', 'true')
-  media.appendChild(frame)
+  button.appendChild(frame)
 
-  button.appendChild(media)
   article.appendChild(button)
 
   // Museum caption — lags behind the image to separate the depth layers.
@@ -165,7 +167,8 @@ export function animateGallery(): void {
           { clipPath: 'inset(0 0 100% 0)' },
           { clipPath: 'inset(0 0 0% 0)', duration: 1.1, ease: EASE },
         )
-          .fromTo(img, { scale: 1.06 }, { scale: 1, duration: 1.2, ease: EASE }, 0)
+          // clearProps so the settled inline transform doesn't shadow the CSS :hover scale.
+          .fromTo(img, { scale: 1.06 }, { scale: 1, duration: 1.2, ease: EASE, clearProps: 'transform' }, 0)
           .fromTo(rule, { scaleX: 0 }, { scaleX: 1, duration: 0.8, ease: EASE }, 0.25)
           .fromTo(
             index,

@@ -39,13 +39,18 @@ function escapeText(s: string): string {
   return d.innerHTML
 }
 
-/** SplitText char mask-reveal of the headline + fades. Resolves after preloader. */
-export function playHeroIntro(after: Promise<void>): void {
+/**
+ * SplitText char mask-reveal of the headline + fades; plays after the preloader.
+ * Returns a disposer (kill timeline + revert the SplitText DOM) so a matchMedia
+ * branch switch tears the split down before the next branch re-splits — matching
+ * the SplitText lifecycle used by the preloader and studio statement.
+ */
+export function playHeroIntro(after: Promise<void>): () => void {
   const title = document.querySelector<HTMLElement>('.hero__title')
   const fades = gsap.utils.toArray<HTMLElement>(
     '.hero__eyebrow, .hero__statement, .hero__featured, .hero__cue',
   )
-  if (!title) return
+  if (!title) return () => {}
 
   const split = new SplitText(title, { type: 'lines,chars', linesClass: 'line-mask' })
   const tl = gsap.timeline({ paused: true })
@@ -60,7 +65,16 @@ export function playHeroIntro(after: Promise<void>): void {
     0.35,
   )
 
-  after.then(() => tl.play())
+  let cancelled = false
+  after.then(() => {
+    if (!cancelled) tl.play()
+  })
+
+  return () => {
+    cancelled = true
+    tl.kill()
+    split.revert()
+  }
 }
 
 /** Gentle scroll drift of hero content as the user scrolls past. */

@@ -25,7 +25,7 @@
     />
   </head>
   <body>
-    <a class="skip-link" href="#index">Skip to works</a>
+    <a class="skip-link" href="#index" data-scroll>Skip to works</a>
 
     <!-- Preloader (outside the smooth-scroll transform). CSS shows it only under .js-motion. -->
     <div class="preloader" aria-hidden="true">
@@ -60,13 +60,13 @@
               <p class="hero__statement">
                 Photoreal architecture, interiors, and objects — composed like film, lit like paintings.
               </p>
-              <div class="hero__featured" aria-live="polite"><!-- featured label injected by JS --></div>
+              <div class="hero__featured"><!-- featured label injected by JS --></div>
             </div>
             <div class="hero__cue label label--wide" aria-hidden="true">Scroll</div>
           </section>
 
           <!-- THE INDEX + GALLERY -->
-          <section class="gallery section" id="index" aria-label="The Index">
+          <section class="gallery section" id="index" tabindex="-1" aria-label="The Index">
             <div class="wrap">
               <header class="gallery__head">
                 <h2 class="gallery__title display reveal-up">The Index</h2>

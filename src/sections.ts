@@ -45,6 +45,9 @@ export function animateContact(): Disposer {
   const xTo = gsap.quickTo(btn, 'x', { duration: 0.5, ease: EASE })
   const yTo = gsap.quickTo(btn, 'y', { duration: 0.5, ease: EASE })
 
+  const onEnter = () => {
+    btn.style.willChange = 'transform'
+  }
   const onMove = (e: PointerEvent) => {
     const r = btn.getBoundingClientRect()
     const relX = e.clientX - (r.left + r.width / 2)
@@ -55,15 +58,19 @@ export function animateContact(): Disposer {
   const onLeave = () => {
     xTo(0)
     yTo(0)
+    btn.style.willChange = ''
   }
 
+  btn.addEventListener('pointerenter', onEnter)
   btn.addEventListener('pointermove', onMove)
   btn.addEventListener('pointerleave', onLeave)
 
   return () => {
+    btn.removeEventListener('pointerenter', onEnter)
     btn.removeEventListener('pointermove', onMove)
     btn.removeEventListener('pointerleave', onLeave)
     gsap.set(btn, { x: 0, y: 0 })
+    btn.style.willChange = ''
   }
 }
 
@@ -71,7 +78,8 @@ export function animateContact(): Disposer {
 export function animateReveals(): void {
   ScrollTrigger.batch('.reveal-up', {
     start: 'top 85%',
-    onEnter: (batch) =>
+    onEnter: (batch) => {
+      batch.forEach((el) => ((el as HTMLElement).style.willChange = 'transform, opacity'))
       gsap.to(batch, {
         autoAlpha: 1,
         y: 0,
@@ -79,7 +87,10 @@ export function animateReveals(): void {
         ease: EASE,
         stagger: 0.1,
         overwrite: true,
-      }),
+        onComplete: () =>
+          batch.forEach((el) => ((el as HTMLElement).style.willChange = '')),
+      })
+    },
     once: true,
   })
 }

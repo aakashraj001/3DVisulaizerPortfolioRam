@@ -116,13 +116,15 @@ export async function mountHero3D(): Promise<Disposer> {
   // Load textures at a capped size; flat depth when no depth map.
   const loader = new THREE.TextureLoader()
   loader.setCrossOrigin('anonymous')
-  const texW = Math.min(MAX_TEX, featured.image.width)
+  // Cap by the LONGEST edge ≤ 2048 (request a width that yields height ≤ 2048 too).
+  const cappedWidth = (a: { width: number; height: number }) =>
+    Math.round(a.width * Math.min(1, MAX_TEX / Math.max(a.width, a.height)))
   const load = (url: string) =>
     new Promise<THREE.Texture>((res, rej) => loader.load(url, res, undefined, rej))
 
   let colorTex: THREE.Texture
   try {
-    colorTex = await load(imageUrl(featured.image, texW, 80))
+    colorTex = await load(imageUrl(featured.image, cappedWidth(featured.image), 80))
   } catch {
     canvas.remove()
     renderer.dispose()
@@ -134,7 +136,7 @@ export async function mountHero3D(): Promise<Disposer> {
   let hasDepth = 0
   if (featured.depthMap) {
     try {
-      depthTex = await load(imageUrl(featured.depthMap, Math.min(MAX_TEX, featured.depthMap.width), 70))
+      depthTex = await load(imageUrl(featured.depthMap, cappedWidth(featured.depthMap), 70))
       hasDepth = 1
     } catch {
       hasDepth = 0
@@ -261,6 +263,7 @@ export async function mountHero3D(): Promise<Disposer> {
 
   // ---- Context loss: one restore attempt, else fall back to static ----
   let restoreAttempted = false
+  let restored = false
   let disposed = false
   const onLost = (e: Event) => {
     e.preventDefault()
@@ -270,12 +273,16 @@ export async function mountHero3D(): Promise<Disposer> {
       return
     }
     restoreAttempted = true
+    restored = false
+    // Fall back only if the context never actually came back — not merely
+    // because the loop is paused (offscreen/hidden also call stop()).
     window.setTimeout(() => {
-      if (!disposed && !running) dispose() // never restored → give up
+      if (!disposed && !restored) dispose()
     }, 1800)
   }
   const onRestored = () => {
-    if (!disposed && inView) start()
+    restored = true
+    if (!disposed && inView && document.visibilityState === 'visible') start()
   }
   canvas.addEventListener('webglcontextlost', onLost as EventListener)
   canvas.addEventListener('webglcontextrestored', onRestored)

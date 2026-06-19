@@ -26,6 +26,16 @@ let triggerEl: HTMLElement | null = null
 let movedImg: HTMLImageElement | null = null
 let originParent: HTMLElement | null = null
 let originSizes = ''
+let bgEls: HTMLElement[] = []
+
+/** Confine AT + focus to the dialog: aria-modal alone doesn't stop browse-mode. */
+function setBackgroundInert(on: boolean): void {
+  bgEls.forEach((el) => {
+    el.toggleAttribute('inert', on)
+    if (on) el.setAttribute('aria-hidden', 'true')
+    else el.removeAttribute('aria-hidden')
+  })
+}
 
 export function initLightbox(): void {
   root = document.createElement('div')
@@ -56,6 +66,12 @@ export function initLightbox(): void {
   closeBtn.addEventListener('click', closeLightbox)
   backdropEl.addEventListener('click', closeLightbox)
   document.addEventListener('keydown', onKeydown)
+
+  bgEls = [
+    document.querySelector<HTMLElement>('.nav'),
+    document.querySelector<HTMLElement>('#smooth-wrapper'),
+    document.querySelector<HTMLElement>('.skip-link'),
+  ].filter((el): el is HTMLElement => el !== null)
 }
 
 function onKeydown(e: KeyboardEvent): void {
@@ -86,6 +102,7 @@ export function openLightbox(project: Project, mediaEl: HTMLElement): void {
 
   root.hidden = false
   getSmoother()?.paused(true) // lock background scroll (ScrollSmoother transforms content)
+  setBackgroundInert(true)
   // Request a larger candidate from the existing srcset for the full view.
   img.sizes = '92vw'
 
@@ -128,6 +145,7 @@ export function closeLightbox(): void {
     root.classList.remove('is-open')
     root.hidden = true
     getSmoother()?.paused(false)
+    setBackgroundInert(false)
     triggerEl?.focus()
     movedImg = null
     originParent = null
@@ -150,6 +168,7 @@ export function closeLightbox(): void {
       root.classList.remove('is-open')
       root.hidden = true
       getSmoother()?.paused(false)
+      setBackgroundInert(false)
       triggerEl?.focus()
       movedImg = null
       originParent = null

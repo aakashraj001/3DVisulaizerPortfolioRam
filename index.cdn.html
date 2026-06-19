@@ -31,7 +31,7 @@
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13/dist/Flip.min.js"></script>
   </head>
   <body>
-    <a class="skip-link" href="#index">Skip to works</a>
+    <a class="skip-link" href="#index" data-scroll>Skip to works</a>
 
     <div class="preloader" aria-hidden="true">
       <div class="preloader__inner">
@@ -63,12 +63,12 @@
               <p class="hero__statement">
                 Photoreal architecture, interiors, and objects — composed like film, lit like paintings.
               </p>
-              <div class="hero__featured" aria-live="polite"></div>
+              <div class="hero__featured"></div>
             </div>
             <div class="hero__cue label label--wide" aria-hidden="true">Scroll</div>
           </section>
 
-          <section class="gallery section" id="index" aria-label="The Index">
+          <section class="gallery section" id="index" tabindex="-1" aria-label="The Index">
             <div class="wrap">
               <header class="gallery__head">
                 <h2 class="gallery__title display reveal-up">The Index</h2>
@@ -123,6 +123,7 @@
       const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches
       const coarse = matchMedia('(pointer: coarse)').matches
       const EASE = 'power3'
+      let smoother = null // hoisted so the lightbox + nav closures can see it
       const esc = (s) => { const d = document.createElement('div'); d.textContent = s; return d.innerHTML }
       const fill = (src, w, h) => src.replace(/\{w\}/g, w).replace(/\{h\}/g, h)
       const lbl = (c) => (c === 'all' ? 'All' : c[0].toUpperCase() + c.slice(1))
@@ -195,11 +196,11 @@
         btn.setAttribute('aria-label', `View ${p.title} — ${lbl(p.category)}, ${p.year}`)
         const m = media(p.image, '(max-width: 767px) 92vw, 44vw', 'piece__media')
         m.dataset.speed = '0.9'
-        const fr = document.createElement('span')
+        btn.appendChild(m)
+        const fr = document.createElement('span') // sibling of media → stays fixed
         fr.className = 'piece__frame'
         fr.setAttribute('aria-hidden', 'true')
-        m.appendChild(fr)
-        btn.appendChild(m)
+        btn.appendChild(fr)
         art.appendChild(btn)
         const cap = document.createElement('figcaption')
         cap.className = 'piece__cap'
@@ -246,6 +247,8 @@
       const lbMedia = lb.querySelector('.lightbox__media')
       const lbClose = lb.querySelector('.lightbox__close')
       let lbOpen = false, lbTrigger = null, lbImg = null, lbParent = null, lbSizes = ''
+      const lbBg = ['.nav', '#smooth-wrapper', '.skip-link'].map((s) => document.querySelector(s)).filter(Boolean)
+      const setBgInert = (on) => lbBg.forEach((el) => { el.toggleAttribute('inert', on); on ? el.setAttribute('aria-hidden', 'true') : el.removeAttribute('aria-hidden') })
       lbClose.onclick = closeLightbox
       lb.querySelector('.lightbox__backdrop').onclick = closeLightbox
       document.addEventListener('keydown', (e) => {
@@ -266,6 +269,7 @@
         lb.querySelector('.lightbox__meta').textContent = `${lbl(p.category)} · ${p.year} · ${p.engine}`
         lb.hidden = false
         smoother && smoother.paused(true)
+        setBgInert(true)
         img.sizes = '92vw'
         if (reduced) {
           lbMedia.appendChild(img); img.classList.add('lightbox__img'); lb.classList.add('is-open')
@@ -285,7 +289,7 @@
           img.classList.remove('lightbox__img'); img.sizes = lbSizes
           parent.insertBefore(img, parent.firstChild)
           lb.classList.remove('is-open'); lb.hidden = true
-          smoother && smoother.paused(false)
+          smoother && smoother.paused(false); setBgInert(false)
           lbTrigger && lbTrigger.focus(); lbImg = null; lbParent = null
         }
         if (reduced) return done()
@@ -293,7 +297,7 @@
         parent.insertBefore(img, parent.firstChild); img.classList.remove('lightbox__img')
         Flip.from(s, { duration: 0.55, ease: EASE, absolute: true, onComplete: () => {
           img.sizes = lbSizes; lb.classList.remove('is-open'); lb.hidden = true
-          smoother && smoother.paused(false); lbTrigger && lbTrigger.focus(); lbImg = null; lbParent = null
+          smoother && smoother.paused(false); setBgInert(false); lbTrigger && lbTrigger.focus(); lbImg = null; lbParent = null
         } })
         gsap.to(lb.querySelector('.lightbox__backdrop'), { opacity: 0, duration: 0.45, ease: EASE })
       }
@@ -310,16 +314,14 @@
 
       /* ---- Motion (skipped entirely under reduced motion) ---- */
       if (!reduced) {
-        const smoother = (window.__smoother = ScrollSmoother.create({
+        smoother = ScrollSmoother.create({
           wrapper: '#smooth-wrapper',
           content: '#smooth-content',
           smooth: coarse ? 0.7 : 1.2,
           effects: true,
           normalizeScroll: true,
           smoothTouch: 0.1,
-        }))
-        // expose for lightbox closure
-        window.smoother = smoother
+        })
 
         const nav = document.querySelector('.nav')
         ScrollTrigger.create({
@@ -350,7 +352,7 @@
                 RU = pc.querySelector('.piece__rule'), IX = pc.querySelector('.piece__index')
               gsap.timeline({ delay: i * 0.09 })
                 .fromTo(M, { clipPath: 'inset(0 0 100% 0)' }, { clipPath: 'inset(0 0 0% 0)', duration: 1.1, ease: EASE })
-                .fromTo(IM, { scale: 1.06 }, { scale: 1, duration: 1.2, ease: EASE }, 0)
+                .fromTo(IM, { scale: 1.06 }, { scale: 1, duration: 1.2, ease: EASE, clearProps: 'transform' }, 0)
                 .fromTo(RU, { scaleX: 0 }, { scaleX: 1, duration: 0.8, ease: EASE }, 0.25)
                 .fromTo(IX, { autoAlpha: 0, y: 12 }, { autoAlpha: 1, y: 0, duration: 0.6, ease: EASE }, 0.35)
             }),

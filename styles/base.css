@@ -110,6 +110,11 @@ h3,
 :focus:not(:focus-visible) {
   outline: none;
 }
+/* Scroll-target regions get focus moved to them for keyboard users; the scroll
+   itself is the cue, so suppress the large region outline. */
+:is(main, section, footer)[tabindex='-1']:focus-visible {
+  outline: none;
+}
 
 .visually-hidden {
   position: absolute !important;

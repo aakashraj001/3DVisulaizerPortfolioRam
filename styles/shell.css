@@ -6,7 +6,7 @@
 .js-motion .reveal-up {
   opacity: 0;
   transform: translateY(40px);
-  will-change: transform, opacity;
+  /* will-change is applied transiently in JS during the reveal, then cleared. */
 }
 .js-motion .hero__eyebrow,
 .js-motion .hero__statement,
@@ -232,7 +232,7 @@
   font-size: clamp(1.1rem, 2vw, 1.6rem);
   color: var(--bone);
   transition: border-color var(--dur-med) var(--ease), color var(--dur-med) var(--ease);
-  will-change: transform;
+  /* will-change toggled in JS only while the pointer is over the button. */
 }
 .magnetic:hover {
   border-color: var(--gilt);

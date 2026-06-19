@@ -16,6 +16,10 @@ export function mountNav(): void {
       const smoother = getSmoother()
       if (smoother) smoother.scrollTo(target, true, 'top top')
       else target.scrollIntoView({ behavior: 'auto', block: 'start' })
+      // Move focus to the destination so keyboard users (esp. the skip link)
+      // actually land there. Make it programmatically focusable if needed.
+      if (!target.hasAttribute('tabindex')) target.setAttribute('tabindex', '-1')
+      target.focus({ preventScroll: true })
     })
   })
 }

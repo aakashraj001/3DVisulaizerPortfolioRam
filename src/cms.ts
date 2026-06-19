@@ -87,14 +87,16 @@ function pickAdapter(): CmsAdapter {
 
 const adapter = pickAdapter()
 
-let cache: Project[] | null = null
+let cachePromise: Promise<Project[]> | null = null
 
-/** All projects, sorted by `order` ascending. */
-export async function getProjects(): Promise<Project[]> {
-  if (cache) return cache
-  const list = await adapter.getProjects()
-  cache = list.slice().sort((a, b) => a.order - b.order)
-  return cache
+/** All projects, sorted by `order` ascending. Dedupes concurrent calls. */
+export function getProjects(): Promise<Project[]> {
+  if (!cachePromise) {
+    cachePromise = adapter
+      .getProjects()
+      .then((list) => list.slice().sort((a, b) => a.order - b.order))
+  }
+  return cachePromise
 }
 
 /** The hero piece: the `featured` project, falling back to the first by order. */
