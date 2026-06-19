@@ -26,9 +26,8 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build
+      # Requires Pages enabled once in repo Settings → Pages → Source: GitHub Actions.
       - uses: actions/configure-pages@v5
-        with:
-          enablement: true # turn Pages on (source = GitHub Actions) automatically
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
