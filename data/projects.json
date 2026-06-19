@@ -1,0 +1,131 @@
+{
+  "$comment": "Placeholder content behind the same interface the CMS will satisfy. Swap VITE_CMS_SOURCE to 'sanity'/'decap' to source these from a real CMS — consumers never change. Image `src` is a template; {w}/{h} are filled by src/images.ts so srcset serves real responsive sizes even without a CDN. lqip is a tiny blurred placeholder for the blur-up effect.",
+  "projects": [
+    {
+      "title": "Atelier of Quiet Light",
+      "category": "architecture",
+      "year": 2025,
+      "engine": "Corona",
+      "featured": true,
+      "order": 1,
+      "image": {
+        "src": "https://picsum.photos/seed/atelier/{w}/{h}",
+        "width": 1600,
+        "height": 2000,
+        "alt": "A concrete atelier interior raked by a single shaft of warm afternoon light.",
+        "lqip": "https://picsum.photos/seed/atelier/20/25?blur=6"
+      },
+      "depthMap": {
+        "src": "https://picsum.photos/seed/atelier/{w}/{h}?grayscale",
+        "width": 1600,
+        "height": 2000,
+        "alt": ""
+      }
+    },
+    {
+      "title": "The Cantilever House",
+      "category": "architecture",
+      "year": 2024,
+      "engine": "V-Ray",
+      "featured": false,
+      "order": 2,
+      "image": {
+        "src": "https://picsum.photos/seed/cantilever/{w}/{h}",
+        "width": 2000,
+        "height": 1400,
+        "alt": "A cantilevered concrete house projecting over a dusk-lit ravine.",
+        "lqip": "https://picsum.photos/seed/cantilever/25/18?blur=6"
+      }
+    },
+    {
+      "title": "Reading Room, North Wing",
+      "category": "interior",
+      "year": 2025,
+      "engine": "Corona",
+      "featured": false,
+      "order": 3,
+      "image": {
+        "src": "https://picsum.photos/seed/reading/{w}/{h}",
+        "width": 1500,
+        "height": 1875,
+        "alt": "A panelled reading room with low lamplight and deep shadow.",
+        "lqip": "https://picsum.photos/seed/reading/20/25?blur=6"
+      }
+    },
+    {
+      "title": "Brass & Travertine Bath",
+      "category": "interior",
+      "year": 2023,
+      "engine": "Unreal",
+      "featured": false,
+      "order": 4,
+      "image": {
+        "src": "https://picsum.photos/seed/travertine/{w}/{h}",
+        "width": 2000,
+        "height": 1500,
+        "alt": "A travertine bathroom with brass fittings caught in soft reflected light.",
+        "lqip": "https://picsum.photos/seed/travertine/24/18?blur=6"
+      }
+    },
+    {
+      "title": "Vessel No. 7",
+      "category": "product",
+      "year": 2025,
+      "engine": "V-Ray",
+      "featured": false,
+      "order": 5,
+      "image": {
+        "src": "https://picsum.photos/seed/vessel/{w}/{h}",
+        "width": 1600,
+        "height": 1600,
+        "alt": "A matte ceramic vessel lit as a single sculptural object on dark ground.",
+        "lqip": "https://picsum.photos/seed/vessel/22/22?blur=6"
+      }
+    },
+    {
+      "title": "Folded Chair Study",
+      "category": "product",
+      "year": 2024,
+      "engine": "Cycles",
+      "featured": false,
+      "order": 6,
+      "image": {
+        "src": "https://picsum.photos/seed/chair/{w}/{h}",
+        "width": 1500,
+        "height": 1900,
+        "alt": "A folded-metal chair rendered as a study in plane and shadow.",
+        "lqip": "https://picsum.photos/seed/chair/20/25?blur=6"
+      }
+    },
+    {
+      "title": "Caustic Field",
+      "category": "experimental",
+      "year": 2026,
+      "engine": "Octane",
+      "featured": false,
+      "order": 7,
+      "image": {
+        "src": "https://picsum.photos/seed/caustic/{w}/{h}",
+        "width": 2000,
+        "height": 1333,
+        "alt": "An abstract caustic light field rendered in warm and bone tones.",
+        "lqip": "https://picsum.photos/seed/caustic/24/16?blur=6"
+      }
+    },
+    {
+      "title": "Dust & Volume",
+      "category": "experimental",
+      "year": 2025,
+      "engine": "Houdini / Karma",
+      "featured": false,
+      "order": 8,
+      "image": {
+        "src": "https://picsum.photos/seed/dustvolume/{w}/{h}",
+        "width": 1600,
+        "height": 2000,
+        "alt": "Volumetric dust catching a low beam of light in an empty space.",
+        "lqip": "https://picsum.photos/seed/dustvolume/20/25?blur=6"
+      }
+    }
+  ]
+}

@@ -1,0 +1,312 @@
+/* ============================================================
+   Site shell — preloader, nav, hero, statement, contact, cursor.
+   ============================================================ */
+
+/* ---- Motion-only initial states (only under .js-motion → no reduced-motion FOUC) ---- */
+.js-motion .reveal-up {
+  opacity: 0;
+  transform: translateY(40px);
+  will-change: transform, opacity;
+}
+.js-motion .hero__eyebrow,
+.js-motion .hero__statement,
+.js-motion .hero__featured,
+.js-motion .hero__cue {
+  opacity: 0;
+}
+.js-motion .hero__title {
+  /* chars are masked by SplitText line wrappers; keep visible container */
+  opacity: 1;
+}
+.line-mask {
+  overflow: hidden;
+}
+
+/* ============================================================
+   Preloader
+   ============================================================ */
+.preloader {
+  display: none;
+}
+.js-motion .preloader {
+  display: grid;
+  place-items: center;
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-preloader);
+  background: var(--void);
+}
+.preloader__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+.preloader__name {
+  font-size: clamp(2rem, 6vw, 4rem);
+  color: var(--bone);
+  overflow: hidden;
+}
+.preloader__count {
+  color: var(--gilt);
+}
+
+/* ============================================================
+   Nav
+   ============================================================ */
+.nav {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: var(--z-nav);
+  transition: transform var(--dur-med) var(--ease), background var(--dur-med) var(--ease),
+    backdrop-filter var(--dur-med) var(--ease), border-color var(--dur-med) var(--ease);
+  border-bottom: 1px solid transparent;
+}
+.nav.is-solid {
+  background: var(--void-90);
+  backdrop-filter: blur(14px);
+  border-bottom-color: var(--line);
+}
+.nav.is-hidden {
+  transform: translateY(-100%);
+}
+.nav__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-block: 1.25rem;
+}
+.nav__mark {
+  font-size: 1.5rem;
+  letter-spacing: 0;
+  color: var(--bone);
+}
+.nav__links {
+  display: flex;
+  gap: clamp(1rem, 3vw, 2.75rem);
+}
+.nav__links a {
+  color: var(--ash);
+  transition: color var(--dur-fast) var(--ease);
+}
+.nav__links a:hover {
+  color: var(--bone);
+}
+
+/* ============================================================
+   Hero
+   ============================================================ */
+.hero {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+}
+.hero__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: var(--char);
+}
+.hero__bg .hero__img,
+.hero__canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.hero__bg .hero__img {
+  aspect-ratio: auto !important; /* fill the hero, not the intrinsic ratio */
+}
+.hero__bg .hero__img .media__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.hero__canvas {
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.8s var(--ease);
+}
+/* When WebGL is live, fade it in and hide the static image beneath. */
+.hero.webgl-active .hero__canvas {
+  opacity: 1;
+}
+.hero.webgl-active .hero__img {
+  opacity: 0;
+}
+.hero__scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: linear-gradient(
+    180deg,
+    var(--void-60) 0%,
+    rgba(20, 17, 14, 0.25) 38%,
+    var(--void-90) 100%
+  );
+}
+.hero__content {
+  position: relative;
+  z-index: var(--z-content);
+  padding-bottom: clamp(4rem, 12vh, 9rem);
+  max-width: 1100px;
+}
+.hero__eyebrow {
+  color: var(--gilt);
+  margin-bottom: 1.5rem;
+}
+.hero__title {
+  font-size: var(--fs-hero);
+  color: var(--bone);
+  margin-bottom: 1.75rem;
+}
+.hero__statement {
+  max-width: 46ch;
+  color: var(--ash);
+  font-size: clamp(1.05rem, 1.5vw, 1.35rem);
+  margin-bottom: 2.25rem;
+}
+.hero__featured {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  border-top: 1px solid var(--line);
+  padding-top: 1.1rem;
+  max-width: 40ch;
+}
+.hero__featured-k {
+  color: var(--gilt);
+}
+.hero__featured-v {
+  color: var(--bone-50);
+  font-size: 0.95rem;
+}
+.hero__cue {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: var(--z-content);
+  color: var(--ash);
+  writing-mode: vertical-rl;
+  letter-spacing: 0.3em;
+}
+
+/* ============================================================
+   Studio statement
+   ============================================================ */
+.statement {
+  text-align: center;
+}
+.statement__quote {
+  font-size: var(--fs-quote);
+  line-height: 1.18;
+  max-width: 22ch;
+  margin: 0 auto 3rem;
+  color: var(--bone);
+}
+.statement__engines {
+  color: var(--ash);
+}
+
+/* ============================================================
+   Contact / footer
+   ============================================================ */
+.contact {
+  border-top: 1px solid var(--line);
+}
+.contact__line {
+  font-size: var(--fs-display);
+  color: var(--bone);
+  margin-bottom: 3rem;
+  max-width: 14ch;
+}
+.magnetic {
+  display: inline-flex;
+  align-items: center;
+  padding: 1rem 2rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  font-size: clamp(1.1rem, 2vw, 1.6rem);
+  color: var(--bone);
+  transition: border-color var(--dur-med) var(--ease), color var(--dur-med) var(--ease);
+  will-change: transform;
+}
+.magnetic:hover {
+  border-color: var(--gilt);
+  color: var(--gilt);
+}
+.contact__social {
+  list-style: none;
+  display: flex;
+  gap: 2rem;
+  padding: 0;
+  margin: 3.5rem 0 2rem;
+}
+.contact__social a {
+  color: var(--ash);
+  transition: color var(--dur-fast) var(--ease);
+}
+.contact__social a:hover {
+  color: var(--bone);
+}
+.contact__colophon {
+  color: var(--ash);
+  opacity: 0.7;
+}
+
+/* ============================================================
+   NICE: custom cursor
+   ============================================================ */
+.cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: var(--z-cursor);
+  width: 10px;
+  height: 10px;
+  margin: -5px 0 0 -5px;
+  border-radius: 50%;
+  background: var(--gilt);
+  pointer-events: none;
+  opacity: 0;
+  display: grid;
+  place-items: center;
+  transition: width 0.35s var(--ease), height 0.35s var(--ease), background 0.35s var(--ease);
+}
+.cursor.is-view {
+  width: 76px;
+  height: 76px;
+  margin: -38px 0 0 -38px;
+  background: var(--gilt-18);
+  border: 1px solid var(--gilt);
+}
+.cursor__label {
+  font-family: var(--font-body);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--bone);
+  opacity: 0;
+  transition: opacity 0.3s var(--ease);
+}
+.cursor.is-view .cursor__label {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce), (pointer: coarse) {
+  .cursor {
+    display: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .hero {
+    align-items: flex-end;
+  }
+  .nav__links {
+    gap: 1rem;
+  }
+}

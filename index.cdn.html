@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <script>
+      try {
+        if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          document.documentElement.classList.add('js-motion')
+        }
+      } catch (e) {}
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Studio Bhū — Architectural Visualization (no-build)</title>
+    <meta name="description" content="A 3D / architectural visualization studio — no-build CDN demo." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..500;1,9..144,300..400&family=Inter:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles/tokens.css" />
+    <link rel="stylesheet" href="./styles/base.css" />
+    <link rel="stylesheet" href="./styles/shell.css" />
+    <link rel="stylesheet" href="./styles/gallery.css" />
+
+    <!-- The brief's exact no-build snippet (all GSAP plugins are free). -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13/dist/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13/dist/ScrollSmoother.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13/dist/SplitText.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13/dist/Flip.min.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#index">Skip to works</a>
+
+    <div class="preloader" aria-hidden="true">
+      <div class="preloader__inner">
+        <span class="preloader__name display">Studio Bhū</span>
+        <span class="preloader__count label label--wide">00</span>
+      </div>
+    </div>
+
+    <header class="nav">
+      <div class="nav__bar wrap">
+        <a class="nav__mark display" href="#top" data-scroll>Bhū</a>
+        <nav class="nav__links" aria-label="Primary">
+          <a href="#index" data-scroll class="label label--wide">Index</a>
+          <a href="#studio" data-scroll class="label label--wide">Studio</a>
+          <a href="#contact" data-scroll class="label label--wide">Contact</a>
+        </nav>
+      </div>
+    </header>
+
+    <div id="smooth-wrapper">
+      <div id="smooth-content">
+        <main id="top">
+          <section class="hero" aria-label="Featured work">
+            <div class="hero__bg"></div>
+            <div class="hero__scrim" aria-hidden="true"></div>
+            <div class="hero__content wrap">
+              <p class="hero__eyebrow label label--wide">Studio Bhū — Architectural Visualization</p>
+              <h1 class="hero__title display">Light, <span class="italic">rendered</span>.</h1>
+              <p class="hero__statement">
+                Photoreal architecture, interiors, and objects — composed like film, lit like paintings.
+              </p>
+              <div class="hero__featured" aria-live="polite"></div>
+            </div>
+            <div class="hero__cue label label--wide" aria-hidden="true">Scroll</div>
+          </section>
+
+          <section class="gallery section" id="index" aria-label="The Index">
+            <div class="wrap">
+              <header class="gallery__head">
+                <h2 class="gallery__title display reveal-up">The Index</h2>
+                <div class="gallery__filters"></div>
+              </header>
+              <div class="gallery__grid" aria-busy="false"></div>
+            </div>
+          </section>
+
+          <section class="statement section" id="studio" aria-label="Studio statement">
+            <div class="wrap">
+              <blockquote class="statement__quote display">
+                We build the unbuilt — rooms before they are poured, objects before they are made,
+                light before it falls.
+              </blockquote>
+              <p class="statement__engines label label--wide reveal-up">
+                Corona · V-Ray · Unreal · Cycles · Octane · Karma
+              </p>
+            </div>
+          </section>
+
+          <footer class="contact section" id="contact" aria-label="Contact">
+            <div class="wrap">
+              <h2 class="contact__line display reveal-up">
+                Let’s build <span class="italic">the unbuilt</span>.
+              </h2>
+              <a class="magnetic" href="mailto:studio@bhu.example">
+                <span class="magnetic__label">studio@bhu.example</span>
+              </a>
+              <ul class="contact__social reveal-up">
+                <li><a class="label label--wide" href="#" rel="noopener">Instagram</a></li>
+                <li><a class="label label--wide" href="#" rel="noopener">Behance</a></li>
+                <li><a class="label label--wide" href="#" rel="noopener">LinkedIn</a></li>
+              </ul>
+              <p class="contact__colophon label reveal-up">
+                © 2026 Studio Bhū — No-build CDN demo (the full Vite app adds the Three.js depth hero)
+              </p>
+            </div>
+          </footer>
+        </main>
+      </div>
+    </div>
+
+    <script type="module">
+      /* Core experience without a build step. Mirrors the Vite app's gallery,
+         lightbox, reveals, parallax, and fallbacks. The Three.js depth hero
+         lives in the Vite build (src/hero3d.ts); here the hero shows the static
+         featured render, which is also the universal fallback. */
+      const { gsap, ScrollTrigger, ScrollSmoother, SplitText, Flip } = window
+      gsap.registerPlugin(ScrollTrigger, ScrollSmoother, SplitText, Flip)
+
+      const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches
+      const coarse = matchMedia('(pointer: coarse)').matches
+      const EASE = 'power3'
+      const esc = (s) => { const d = document.createElement('div'); d.textContent = s; return d.innerHTML }
+      const fill = (src, w, h) => src.replace(/\{w\}/g, w).replace(/\{h\}/g, h)
+      const lbl = (c) => (c === 'all' ? 'All' : c[0].toUpperCase() + c.slice(1))
+
+      function media(a, sizes, cls) {
+        const d = document.createElement('div')
+        d.className = 'media' + (cls ? ' ' + cls : '')
+        d.style.aspectRatio = `${a.width} / ${a.height}`
+        if (a.lqip) {
+          const l = document.createElement('div')
+          l.className = 'media__lqip'
+          l.style.backgroundImage = `url("${a.lqip}")`
+          d.appendChild(l)
+        }
+        const img = new Image()
+        img.className = 'media__img'
+        img.loading = 'lazy'
+        img.decoding = 'async'
+        img.width = a.width
+        img.height = a.height
+        img.alt = a.alt
+        img.sizes = sizes
+        img.srcset = [480, 768, 1024, 1440, 1920]
+          .map((w) => `${fill(a.src, w, Math.round((w * a.height) / a.width))} ${w}w`)
+          .join(', ')
+        img.src = fill(a.src, 1440, Math.round((1440 * a.height) / a.width))
+        const rev = () => { img.classList.add('is-loaded'); d.classList.add('is-loaded') }
+        img.complete ? rev() : img.addEventListener('load', rev, { once: true })
+        d.appendChild(img)
+        return d
+      }
+
+      const data = await fetch('./data/projects.json').then((r) => r.json())
+      const projects = data.projects.slice().sort((a, b) => a.order - b.order)
+      const featured = projects.find((p) => p.featured) || projects[0]
+      const cats = ['architecture', 'interior', 'product', 'experimental'].filter((c) =>
+        projects.some((p) => p.category === c),
+      )
+
+      // Hero
+      document.querySelector('.hero__bg').prepend(media(featured.image, '100vw', 'hero__img'))
+      document.querySelector('.hero__featured').innerHTML =
+        `<span class="hero__featured-k label label--wide">Featured</span>` +
+        `<span class="hero__featured-v">${esc(featured.title)} — ${lbl(featured.category)} · ${featured.year} · ${esc(featured.engine)}</span>`
+
+      // Filters
+      const fh = document.querySelector('.gallery__filters')
+      ;['all', ...cats].forEach((f) => {
+        const b = document.createElement('button')
+        b.type = 'button'
+        b.className = 'filter label label--wide'
+        b.dataset.filter = f
+        b.textContent = lbl(f)
+        b.setAttribute('aria-pressed', String(f === 'all'))
+        if (f === 'all') b.classList.add('is-active')
+        b.onclick = () => applyFilter(f)
+        fh.appendChild(b)
+      })
+
+      // Grid
+      const grid = document.querySelector('.gallery__grid')
+      const pieces = []
+      projects.forEach((p, i) => {
+        const art = document.createElement('article')
+        art.className = 'piece reveal-piece'
+        art.dataset.category = p.category
+        const btn = document.createElement('button')
+        btn.type = 'button'
+        btn.className = 'piece__open'
+        btn.setAttribute('aria-label', `View ${p.title} — ${lbl(p.category)}, ${p.year}`)
+        const m = media(p.image, '(max-width: 767px) 92vw, 44vw', 'piece__media')
+        m.dataset.speed = '0.9'
+        const fr = document.createElement('span')
+        fr.className = 'piece__frame'
+        fr.setAttribute('aria-hidden', 'true')
+        m.appendChild(fr)
+        btn.appendChild(m)
+        art.appendChild(btn)
+        const cap = document.createElement('figcaption')
+        cap.className = 'piece__cap'
+        cap.dataset.lag = '0.1'
+        cap.innerHTML =
+          `<hr class="piece__rule" aria-hidden="true"><h3 class="piece__title">${esc(p.title)}</h3>` +
+          `<p class="piece__meta label">${lbl(p.category)} &middot; ${p.year} &middot; ${esc(p.engine)}</p>` +
+          `<span class="piece__index label">${String(i + 1).padStart(2, '0')}</span>`
+        art.appendChild(cap)
+        btn.onclick = () => openLightbox(p, m)
+        grid.appendChild(art)
+        pieces.push({ el: art, project: p })
+      })
+
+      let activeFilter = 'all'
+      function applyFilter(f) {
+        if (f === activeFilter) return
+        activeFilter = f
+        document.querySelectorAll('.filter').forEach((b) => {
+          const on = b.dataset.filter === f
+          b.classList.toggle('is-active', on)
+          b.setAttribute('aria-pressed', String(on))
+        })
+        const st = !reduced ? Flip.getState(pieces.map((p) => p.el)) : null
+        pieces.forEach(({ el, project }) =>
+          el.toggleAttribute('hidden', !(f === 'all' || project.category === f)),
+        )
+        if (st) Flip.from(st, { duration: 0.6, ease: EASE, scale: true, absolute: true })
+        ScrollTrigger.refresh()
+      }
+
+      /* ---- Lightbox (Flip morph + focus trap + dismiss) ---- */
+      const lb = document.createElement('div')
+      lb.className = 'lightbox'
+      lb.hidden = true
+      lb.innerHTML =
+        `<div class="lightbox__backdrop" data-close></div>` +
+        `<div class="lightbox__dialog" role="dialog" aria-modal="true" aria-labelledby="lbt">` +
+        `<button class="lightbox__close" type="button" aria-label="Close (Esc)"><span aria-hidden="true">&times;</span></button>` +
+        `<div class="lightbox__media"></div>` +
+        `<figcaption class="lightbox__cap"><h2 class="lightbox__title display" id="lbt"></h2><p class="lightbox__meta label label--wide"></p></figcaption>` +
+        `</div>`
+      document.body.appendChild(lb)
+      const lbMedia = lb.querySelector('.lightbox__media')
+      const lbClose = lb.querySelector('.lightbox__close')
+      let lbOpen = false, lbTrigger = null, lbImg = null, lbParent = null, lbSizes = ''
+      lbClose.onclick = closeLightbox
+      lb.querySelector('.lightbox__backdrop').onclick = closeLightbox
+      document.addEventListener('keydown', (e) => {
+        if (!lbOpen) return
+        if (e.key === 'Escape') { e.preventDefault(); closeLightbox() }
+        else if (e.key === 'Tab') { e.preventDefault(); lbClose.focus() }
+      })
+      function openLightbox(p, m) {
+        if (lbOpen) return
+        const img = m.querySelector('.media__img')
+        if (!img) return
+        lbOpen = true
+        lbTrigger = document.activeElement
+        lbParent = m
+        lbImg = img
+        lbSizes = img.sizes
+        lb.querySelector('.lightbox__title').textContent = p.title
+        lb.querySelector('.lightbox__meta').textContent = `${lbl(p.category)} · ${p.year} · ${p.engine}`
+        lb.hidden = false
+        smoother && smoother.paused(true)
+        img.sizes = '92vw'
+        if (reduced) {
+          lbMedia.appendChild(img); img.classList.add('lightbox__img'); lb.classList.add('is-open')
+        } else {
+          const s = Flip.getState(img)
+          lbMedia.appendChild(img); img.classList.add('lightbox__img'); lb.classList.add('is-open')
+          gsap.fromTo(lb.querySelector('.lightbox__backdrop'), { opacity: 0 }, { opacity: 1, duration: 0.4, ease: EASE })
+          Flip.from(s, { duration: 0.7, ease: EASE, absolute: true })
+        }
+        lbClose.focus()
+      }
+      function closeLightbox() {
+        if (!lbOpen || !lbImg || !lbParent) return
+        lbOpen = false
+        const img = lbImg, parent = lbParent
+        const done = () => {
+          img.classList.remove('lightbox__img'); img.sizes = lbSizes
+          parent.insertBefore(img, parent.firstChild)
+          lb.classList.remove('is-open'); lb.hidden = true
+          smoother && smoother.paused(false)
+          lbTrigger && lbTrigger.focus(); lbImg = null; lbParent = null
+        }
+        if (reduced) return done()
+        const s = Flip.getState(img)
+        parent.insertBefore(img, parent.firstChild); img.classList.remove('lightbox__img')
+        Flip.from(s, { duration: 0.55, ease: EASE, absolute: true, onComplete: () => {
+          img.sizes = lbSizes; lb.classList.remove('is-open'); lb.hidden = true
+          smoother && smoother.paused(false); lbTrigger && lbTrigger.focus(); lbImg = null; lbParent = null
+        } })
+        gsap.to(lb.querySelector('.lightbox__backdrop'), { opacity: 0, duration: 0.45, ease: EASE })
+      }
+
+      // Smooth-scroll nav anchors
+      document.querySelectorAll('a[data-scroll]').forEach((a) => {
+        a.addEventListener('click', (e) => {
+          const t = document.querySelector(a.getAttribute('href'))
+          if (!t) return
+          e.preventDefault()
+          smoother ? smoother.scrollTo(t, true, 'top top') : t.scrollIntoView()
+        })
+      })
+
+      /* ---- Motion (skipped entirely under reduced motion) ---- */
+      if (!reduced) {
+        const smoother = (window.__smoother = ScrollSmoother.create({
+          wrapper: '#smooth-wrapper',
+          content: '#smooth-content',
+          smooth: coarse ? 0.7 : 1.2,
+          effects: true,
+          normalizeScroll: true,
+          smoothTouch: 0.1,
+        }))
+        // expose for lightbox closure
+        window.smoother = smoother
+
+        const nav = document.querySelector('.nav')
+        ScrollTrigger.create({
+          start: 0, end: 'max',
+          onUpdate: (s) => {
+            const y = s.scroll()
+            nav.classList.toggle('is-solid', y > 40)
+            nav.classList.toggle('is-hidden', y > 240 && s.direction === 1)
+          },
+        })
+
+        const split = new SplitText('.hero__title', { type: 'lines,chars', linesClass: 'line-mask' })
+        const intro = gsap.timeline({ paused: true })
+        intro
+          .from(split.chars, { yPercent: 115, duration: 1, ease: EASE, stagger: 0.018 })
+          .from('.hero__eyebrow,.hero__statement,.hero__featured,.hero__cue', { autoAlpha: 0, y: 24, duration: 0.9, ease: EASE, stagger: 0.12 }, 0.35)
+
+        ScrollTrigger.batch('.reveal-up', {
+          start: 'top 85%',
+          onEnter: (b) => gsap.to(b, { autoAlpha: 1, y: 0, duration: 0.9, ease: EASE, stagger: 0.1 }),
+          once: true,
+        })
+        ScrollTrigger.batch('.reveal-piece', {
+          start: 'top 88%',
+          onEnter: (b) =>
+            b.forEach((pc, i) => {
+              const M = pc.querySelector('.piece__media'), IM = pc.querySelector('.media__img'),
+                RU = pc.querySelector('.piece__rule'), IX = pc.querySelector('.piece__index')
+              gsap.timeline({ delay: i * 0.09 })
+                .fromTo(M, { clipPath: 'inset(0 0 100% 0)' }, { clipPath: 'inset(0 0 0% 0)', duration: 1.1, ease: EASE })
+                .fromTo(IM, { scale: 1.06 }, { scale: 1, duration: 1.2, ease: EASE }, 0)
+                .fromTo(RU, { scaleX: 0 }, { scaleX: 1, duration: 0.8, ease: EASE }, 0.25)
+                .fromTo(IX, { autoAlpha: 0, y: 12 }, { autoAlpha: 1, y: 0, duration: 0.6, ease: EASE }, 0.35)
+            }),
+          once: true,
+        })
+        const sq = new SplitText('.statement__quote', { type: 'words' })
+        gsap.fromTo(sq.words, { opacity: 0.16 }, {
+          opacity: 1, ease: 'none', stagger: 0.08,
+          scrollTrigger: { trigger: '.statement', start: 'top 75%', end: 'bottom 60%', scrub: true },
+        })
+
+        // Preloader → then play hero intro
+        runPreloader().then(() => intro.play())
+      }
+
+      function runPreloader() {
+        return new Promise((resolve) => {
+          const pre = document.querySelector('.preloader')
+          const counter = pre && pre.querySelector('.preloader__count')
+          const name = pre && pre.querySelector('.preloader__name')
+          if (!pre || !counter || !name || reduced) { pre && pre.remove(); return resolve() }
+          const split = new SplitText(name, { type: 'chars' })
+          const n = { v: 0 }
+          gsap.timeline({ onComplete: () => { split.revert(); pre.remove(); resolve() } })
+            .from(split.chars, { yPercent: 120, autoAlpha: 0, stagger: 0.03, duration: 0.7, ease: EASE })
+            .to(n, { v: 100, duration: 1.5, ease: 'power2.inOut', onUpdate: () => { counter.textContent = String(Math.round(n.v)).padStart(2, '0') } }, 0)
+            .to([name, counter], { autoAlpha: 0, duration: 0.4, ease: EASE }, '+=0.2')
+            .to(pre, { yPercent: -100, duration: 1.0, ease: 'power4.inOut' }, '-=0.1')
+        })
+      }
+    </script>
+  </body>
+</html>

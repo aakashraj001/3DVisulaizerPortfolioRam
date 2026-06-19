@@ -1,0 +1,62 @@
+/* ============================================================
+   Design tokens — the single source of the visual identity.
+   Every component consumes these; never hardcode the literals.
+   Palette is exact per the brief. --gilt is RESTRAINT ONLY:
+   hairlines, micro-caps, hover frames — never a fill or button bg.
+   ============================================================ */
+
+:root {
+  /* ---- Palette ---- */
+  --void: #14110e;          /* page background — the room          */
+  --char: #1c1813;          /* lifted panels                       */
+  --bone: #ece5d8;          /* primary type                        */
+  --ash: #8a8073;           /* secondary / captions                */
+  --line: rgba(236, 229, 216, 0.13); /* hairlines                  */
+  --gilt: #b89b6e;          /* restraint only                      */
+
+  /* Derived tints (kept token-driven so a palette change cascades) */
+  --bone-08: rgba(236, 229, 216, 0.08);
+  --bone-50: rgba(236, 229, 216, 0.5);
+  --gilt-40: rgba(184, 155, 110, 0.4);
+  --gilt-18: rgba(184, 155, 110, 0.18);
+  --void-90: rgba(20, 17, 14, 0.9);
+  --void-60: rgba(20, 17, 14, 0.6);
+
+  /* ---- Type ---- */
+  --font-display: "Fraunces", "Times New Roman", serif; /* 300–500, italic accents */
+  --font-body: "Inter", system-ui, -apple-system, sans-serif;
+
+  /* Fluid display scale */
+  --fs-hero: clamp(2.75rem, 8vw, 7.5rem);
+  --fs-display: clamp(2.25rem, 5.5vw, 4.75rem);
+  --fs-quote: clamp(1.75rem, 4vw, 3.25rem);
+  --fs-title: clamp(1.25rem, 2vw, 1.85rem);
+  --fs-body: clamp(1rem, 1.05vw, 1.1rem);
+  --fs-label: 0.6875rem;    /* 11px museum label */
+  --fs-label-lg: 0.75rem;   /* 12px              */
+
+  /* Label voice */
+  --ls-label: 0.18em;       /* within the .14–.32em museum-label range */
+  --ls-label-wide: 0.3em;
+
+  /* ---- Space & rhythm ---- */
+  --gutter: clamp(1.25rem, 5vw, 6rem);
+  --section-y: clamp(6rem, 14vh, 14rem);
+  --radius: 1px;            /* near-zero, per the design language   */
+
+  /* ---- Motion ---- */
+  --ease: cubic-bezier(0.2, 0.7, 0.25, 1);
+  --dur-slow: 1.3s;         /* gallery hover zoom */
+  --dur-med: 0.6s;
+  --dur-fast: 0.35s;
+
+  /* ---- Layering ---- */
+  --z-canvas: 1;
+  --z-content: 10;
+  --z-nav: 60;
+  --z-cursor: 70;
+  --z-lightbox: 80;
+  --z-preloader: 100;
+
+  color-scheme: dark;
+}

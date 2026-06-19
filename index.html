@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <script>
+      // Set BEFORE stylesheets so motion-only initial-hidden states never flash
+      // for reduced-motion users (who never get .js-motion → content stays visible).
+      try {
+        if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          document.documentElement.classList.add('js-motion')
+        }
+      } catch (e) {}
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Studio Bhū — Architectural Visualization</title>
+    <meta
+      name="description"
+      content="A 3D / architectural visualization studio. Photoreal renders of architecture, interiors, and objects, composed like film and lit like paintings."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..500;1,9..144,300..400&family=Inter:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <a class="skip-link" href="#index">Skip to works</a>
+
+    <!-- Preloader (outside the smooth-scroll transform). CSS shows it only under .js-motion. -->
+    <div class="preloader" aria-hidden="true">
+      <div class="preloader__inner">
+        <span class="preloader__name display">Studio Bhū</span>
+        <span class="preloader__count label label--wide">00</span>
+      </div>
+    </div>
+
+    <!-- Fixed nav (outside the transform). -->
+    <header class="nav">
+      <div class="nav__bar wrap">
+        <a class="nav__mark display" href="#top" data-scroll>Bhū</a>
+        <nav class="nav__links" aria-label="Primary">
+          <a href="#index" data-scroll class="label label--wide">Index</a>
+          <a href="#studio" data-scroll class="label label--wide">Studio</a>
+          <a href="#contact" data-scroll class="label label--wide">Contact</a>
+        </nav>
+      </div>
+    </header>
+
+    <div id="smooth-wrapper">
+      <div id="smooth-content">
+        <main id="top">
+          <!-- HERO -->
+          <section class="hero" aria-label="Featured work">
+            <div class="hero__bg"><!-- static <img> + WebGL <canvas> injected by JS --></div>
+            <div class="hero__scrim" aria-hidden="true"></div>
+            <div class="hero__content wrap">
+              <p class="hero__eyebrow label label--wide">Studio Bhū — Architectural Visualization</p>
+              <h1 class="hero__title display">Light, <span class="italic">rendered</span>.</h1>
+              <p class="hero__statement">
+                Photoreal architecture, interiors, and objects — composed like film, lit like paintings.
+              </p>
+              <div class="hero__featured" aria-live="polite"><!-- featured label injected by JS --></div>
+            </div>
+            <div class="hero__cue label label--wide" aria-hidden="true">Scroll</div>
+          </section>
+
+          <!-- THE INDEX + GALLERY -->
+          <section class="gallery section" id="index" aria-label="The Index">
+            <div class="wrap">
+              <header class="gallery__head">
+                <h2 class="gallery__title display reveal-up">The Index</h2>
+                <div class="gallery__filters"><!-- filter links injected by JS --></div>
+              </header>
+              <div class="gallery__grid" aria-busy="false"><!-- pieces injected by JS --></div>
+            </div>
+          </section>
+
+          <!-- STUDIO STATEMENT -->
+          <section class="statement section" id="studio" aria-label="Studio statement">
+            <div class="wrap">
+              <blockquote class="statement__quote display">
+                We build the unbuilt — rooms before they are poured, objects before they are made,
+                light before it falls.
+              </blockquote>
+              <p class="statement__engines label label--wide reveal-up">
+                Corona · V-Ray · Unreal · Cycles · Octane · Karma
+              </p>
+            </div>
+          </section>
+
+          <!-- CONTACT / FOOTER -->
+          <footer class="contact section" id="contact" aria-label="Contact">
+            <div class="wrap">
+              <h2 class="contact__line display reveal-up">
+                Let’s build <span class="italic">the unbuilt</span>.
+              </h2>
+              <a class="magnetic" href="mailto:studio@bhu.example">
+                <span class="magnetic__label">studio@bhu.example</span>
+              </a>
+              <ul class="contact__social reveal-up">
+                <li><a class="label label--wide" href="#" rel="noopener">Instagram</a></li>
+                <li><a class="label label--wide" href="#" rel="noopener">Behance</a></li>
+                <li><a class="label label--wide" href="#" rel="noopener">LinkedIn</a></li>
+              </ul>
+              <p class="contact__colophon label reveal-up">
+                © 2026 Studio Bhū — Built with GSAP ScrollSmoother &amp; Three.js
+              </p>
+            </div>
+          </footer>
+        </main>
+      </div>
+    </div>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
