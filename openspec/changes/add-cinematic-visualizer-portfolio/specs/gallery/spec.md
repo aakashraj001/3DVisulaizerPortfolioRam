@@ -4,12 +4,17 @@
 
 ### Requirement: The Index & Category Filters
 
-The site SHALL render an "Index" section with a heading and category filters (All / Architecture / Interior / Product / Experimental) as tracked-caps text links, where the active filter shows a gilt underline. The filter set SHALL be derived from the project data's `category` values (plus "All"), not a hardcoded list, and selecting a filter SHALL show only matching pieces and re-run the entrance reveals for the now-visible set.
+The site SHALL render an "Index" section with a heading and category filters (All / Architecture / Interior / Product / Experimental) as tracked-caps text links, where the active filter shows a gilt underline. The filter set SHALL be derived from the project data's `category` values (plus "All"), not a hardcoded list, and selecting a filter SHALL show only matching pieces and re-run the entrance reveals for the now-visible set. The Index header (heading + filters) SHALL stay pinned beneath the top navigation while the gallery is scrolled, so the filters remain reachable throughout the gallery; because the smooth-scroll wrapper is transformed, this SHALL be implemented via ScrollTrigger pinning rather than CSS `position: sticky`, and the header SHALL release when the gallery scrolls past.
 
 #### Scenario: Filtering by category
 
 - **WHEN** the visitor activates a category filter (e.g. Interior)
 - **THEN** only pieces in that category remain visible, the active link gains a gilt underline, and the visible pieces re-reveal
+
+#### Scenario: Index header stays accessible while scrolling the gallery
+
+- **WHEN** the visitor scrolls down through the gallery pieces
+- **THEN** the Index header (heading + filters) remains pinned just beneath the top nav with the pieces scrolling under it, so any filter can be activated at any point, and it releases once the gallery has scrolled past
 
 #### Scenario: Filters reflect the data
 

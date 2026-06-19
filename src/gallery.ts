@@ -151,6 +151,29 @@ export function setGalleryParallax(speed: number, lag: number): void {
   })
 }
 
+/**
+ * Pin the Index header (title + category filters) so it stays under the top
+ * nav while the gallery scrolls — keeping the filters reachable the whole time.
+ * Uses ScrollTrigger pinning because CSS `position: sticky` breaks inside the
+ * transformed ScrollSmoother wrapper. Safe in all branches (works with or
+ * without the smoother) and auto-reverted by gsap.matchMedia.
+ */
+export function pinIndexHeader(): void {
+  const head = document.querySelector<HTMLElement>('.gallery__head')
+  const gallery = document.querySelector<HTMLElement>('.gallery')
+  if (!head || !gallery) return
+  // Don't pin when there's barely anything to scroll past (e.g. a filtered
+  // single row) — only worth it when the gallery is taller than the viewport.
+  ScrollTrigger.create({
+    trigger: gallery,
+    start: 'top top+=72', // sit just below the persistent top nav
+    end: 'bottom top+=72',
+    pin: head,
+    pinSpacing: false,
+    onToggle: (self) => head.classList.toggle('is-pinned', self.isActive),
+  })
+}
+
 /** Register the staggered clip-path reveal for pieces. Motion branches only. */
 export function animateGallery(): void {
   ScrollTrigger.batch('.reveal-piece', {

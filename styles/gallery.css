@@ -47,6 +47,14 @@
   margin-bottom: clamp(3rem, 8vw, 6rem);
   padding-bottom: 1.5rem;
   border-bottom: 1px solid var(--line);
+  background: var(--void); /* seamless in flow; covers pieces when pinned */
+}
+/* Pinned (sticky) Index header while scrolling the gallery — sits under the nav. */
+.gallery__head.is-pinned {
+  z-index: 50;
+  padding-top: 1rem;
+  background: var(--void-90);
+  backdrop-filter: blur(10px);
 }
 .gallery__title {
   font-size: var(--fs-display);
