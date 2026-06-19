@@ -1,5 +1,5 @@
 {
-  "$comment": "Placeholder content behind the same interface the CMS will satisfy. Swap VITE_CMS_SOURCE to 'sanity'/'decap' to source these from a real CMS — consumers never change. Image `src` points to local generated SVG renders (public/renders, via scripts/generate-placeholders.mjs) so the gallery + hero render with no network. Swap to a real CDN by setting VITE_IMAGE_CDN_BASE and pointing src at CDN paths.",
+  "$comment": "Placeholder content behind the same interface the CMS will satisfy. Images are real themed internet photos via loremflickr (works where picsum is blocked); {w}/{h} are filled by src/images.ts and ?lock pins one photo across srcset widths. Run scripts/generate-placeholders.mjs for offline local SVG renders instead, or set VITE_IMAGE_CDN_BASE + CDN paths for your own renders.",
   "projects": [
     {
       "title": "Atelier of Quiet Light",
@@ -9,7 +9,7 @@
       "featured": true,
       "order": 1,
       "image": {
-        "src": "renders/atelier-of-quiet-light.svg",
+        "src": "https://loremflickr.com/{w}/{h}/architecture,concrete,light?lock=1",
         "width": 1600,
         "height": 2000,
         "alt": "A concrete atelier interior raked by a single shaft of warm afternoon light."
@@ -29,7 +29,7 @@
       "featured": false,
       "order": 2,
       "image": {
-        "src": "renders/the-cantilever-house.svg",
+        "src": "https://loremflickr.com/{w}/{h}/architecture,modern,house?lock=2",
         "width": 2000,
         "height": 1400,
         "alt": "A cantilevered concrete house projecting over a dusk-lit ravine."
@@ -43,7 +43,7 @@
       "featured": false,
       "order": 3,
       "image": {
-        "src": "renders/reading-room-north-wing.svg",
+        "src": "https://loremflickr.com/{w}/{h}/library,interior,room?lock=3",
         "width": 1500,
         "height": 1875,
         "alt": "A panelled reading room with low lamplight and deep shadow."
@@ -57,7 +57,7 @@
       "featured": false,
       "order": 4,
       "image": {
-        "src": "renders/brass-travertine-bath.svg",
+        "src": "https://loremflickr.com/{w}/{h}/bathroom,marble,interior?lock=4",
         "width": 2000,
         "height": 1500,
         "alt": "A travertine bathroom with brass fittings caught in soft reflected light."
@@ -71,7 +71,7 @@
       "featured": false,
       "order": 5,
       "image": {
-        "src": "renders/vessel-no-7.svg",
+        "src": "https://loremflickr.com/{w}/{h}/ceramic,vase,pottery?lock=5",
         "width": 1600,
         "height": 1600,
         "alt": "A matte ceramic vessel lit as a single sculptural object on dark ground."
@@ -85,7 +85,7 @@
       "featured": false,
       "order": 6,
       "image": {
-        "src": "renders/folded-chair-study.svg",
+        "src": "https://loremflickr.com/{w}/{h}/chair,furniture,design?lock=6",
         "width": 1500,
         "height": 1900,
         "alt": "A folded-metal chair rendered as a study in plane and shadow."
@@ -99,7 +99,7 @@
       "featured": false,
       "order": 7,
       "image": {
-        "src": "renders/caustic-field.svg",
+        "src": "https://loremflickr.com/{w}/{h}/light,abstract,water?lock=7",
         "width": 2000,
         "height": 1333,
         "alt": "An abstract caustic light field rendered in warm and bone tones."
@@ -113,7 +113,7 @@
       "featured": false,
       "order": 8,
       "image": {
-        "src": "renders/dust-volume.svg",
+        "src": "https://loremflickr.com/{w}/{h}/smoke,light,dark?lock=8",
         "width": 1600,
         "height": 2000,
         "alt": "Volumetric dust catching a low beam of light in an empty space."

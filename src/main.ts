@@ -85,6 +85,8 @@ async function boot(): Promise<void> {
     reduced: () => {
       // No smoothing, parallax, SplitText, or stagger. Content is already
       // visible (no .js-motion class). The static hero image stands in for WebGL.
+      // Nav still persists + scroll-spies (ScrollTrigger on native scroll).
+      animateNav()
       return () => {}
     },
   })

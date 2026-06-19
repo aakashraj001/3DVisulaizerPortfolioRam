@@ -15,9 +15,9 @@ npm run build      # type-check + production build → dist/
 npm run preview    # serve the built dist/ on :5050
 ```
 
-No build tools? Open **`index.cdn.html`** — a zero-install version that loads GSAP + Three from a CDN (the exact snippet from the brief) and runs the core experience (smooth scroll + parallax gallery + reveals + Flip lightbox + fallbacks). Serve the folder over any static server so `data/projects.json` can be fetched, e.g. `npx serve .` then open `/index.cdn.html`.
+No build tools? Open **`index.cdn.html`** — a zero-install version that loads GSAP + Three from a CDN (the exact snippet from the brief) and runs the core experience (smooth scroll + parallax gallery + reveals + Flip lightbox + fallbacks). Easiest is to open it through the dev server (`npm run dev` → `http://localhost:5173/index.cdn.html`) so the `public/renders` assets and `data/projects.json` resolve at the site root.
 
-> Renders in the placeholder data come from `picsum.photos`; they need network access to load. With no network the gallery still lays out (image areas render as the dark `--char` panel with their museum captions).
+> The placeholder renders are **local generated SVGs** in `public/renders/` (built by `scripts/generate-placeholders.mjs`), so the gallery + hero display with **no network or CDN account**. Regenerate them with `node scripts/generate-placeholders.mjs`. To use real renders, point each project's `image.src` at your CDN and set `VITE_IMAGE_CDN_BASE`.
 
 ---
 
@@ -45,6 +45,8 @@ src/
   cms.ts                Project schema + source-agnostic data layer (placeholder / Sanity / Decap)
   images.ts             CDN URL builder (WebP/AVIF + srcset) + responsive blur-up <img>
 data/projects.json      Placeholder content behind the CMS interface
+public/renders/         Local generated placeholder render plates (SVG) — no network needed
+scripts/generate-placeholders.mjs   Regenerates public/renders/* + rewrites data paths
 public/admin/           Decap CMS admin + config.yml (git-based, optional)
 openspec/               The spec-driven proposal (changes/add-cinematic-visualizer-portfolio)
 ```

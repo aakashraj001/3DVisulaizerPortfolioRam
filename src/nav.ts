@@ -27,25 +27,53 @@ export function mountNav(): void {
 export function animateNav(): void {
   const nav = document.querySelector<HTMLElement>('.nav')
   if (!nav) return
-  let lastSolid = false
-  let lastHidden = false
 
+  // Solidify (blur + hairline) after 40px. The nav PERSISTS — it never hides —
+  // so the section links stay reachable for quick jumping.
+  let lastSolid = false
   ScrollTrigger.create({
     start: 0,
     end: 'max',
     onUpdate: (self) => {
-      const y = self.scroll()
-      const solid = y > 40
+      const solid = self.scroll() > 40
       if (solid !== lastSolid) {
         nav.classList.toggle('is-solid', solid)
         lastSolid = solid
       }
-      // Hide when scrolling down past the hero; show on scroll up.
-      const hidden = y > 240 && self.direction === 1
-      if (hidden !== lastHidden) {
-        nav.classList.toggle('is-hidden', hidden)
-        lastHidden = hidden
-      }
     },
   })
+
+  // Scroll-spy: highlight the nav link for the section currently in view.
+  const links = nav.querySelectorAll<HTMLAnchorElement>('.nav__links a')
+  const setCurrent = (id: string | null) => {
+    links.forEach((a) => {
+      const on = a.getAttribute('href') === `#${id}`
+      a.classList.toggle('is-current', on)
+      if (on) a.setAttribute('aria-current', 'true')
+      else a.removeAttribute('aria-current')
+    })
+  }
+
+  ;['index', 'studio', 'contact'].forEach((id) => {
+    const sec = document.getElementById(id)
+    if (!sec) return
+    ScrollTrigger.create({
+      trigger: sec,
+      start: 'top center',
+      end: 'bottom center',
+      onEnter: () => setCurrent(id),
+      onEnterBack: () => setCurrent(id),
+    })
+  })
+  // Back in the hero (above the first section) → clear the active link.
+  const hero = document.querySelector('.hero')
+  if (hero) {
+    ScrollTrigger.create({
+      trigger: hero,
+      start: 'top top',
+      end: 'bottom center',
+      onEnterBack: () => setCurrent(null),
+      onLeaveBack: () => setCurrent(null),
+    })
+  }
 }

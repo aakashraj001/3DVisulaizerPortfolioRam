@@ -41,17 +41,22 @@ On initial load (full experience only), the site SHALL show a full-screen `--voi
 
 ### Requirement: Fixed Navigation Behavior
 
-The site SHALL render a fixed, minimal nav (wordmark left; Index / Studio / Contact links right). It SHALL be transparent over the hero, SHALL gain a backdrop blur and a hairline bottom border after the page is scrolled past 40px, SHALL hide when the user scrolls down, and SHALL reappear when the user scrolls up. All nav links SHALL be keyboard-focusable with a visible gilt focus ring.
+The site SHALL render a fixed, minimal nav (wordmark left; Index / Studio / Contact links right). It SHALL be transparent over the hero and SHALL gain a backdrop blur and a hairline bottom border after the page is scrolled past 40px. The nav SHALL persist (remain visible at all scroll positions) so its section links stay reachable for quick jumping, and it SHALL indicate the active section: the link for the section currently in view SHALL be marked current (a gilt underline and `aria-current`). Clicking a nav link SHALL smooth-scroll to its section and move focus there. All nav links SHALL be keyboard-focusable with a visible gilt focus ring.
 
-#### Scenario: Nav solidifies after 40px
+#### Scenario: Nav solidifies after 40px and persists
 
 - **WHEN** the page is scrolled more than 40px from the top
-- **THEN** the nav shows a backdrop blur and a hairline bottom border (and returns to transparent at the top)
+- **THEN** the nav shows a backdrop blur and a hairline bottom border (and returns to transparent at the top), and the nav remains visible at every scroll position (it never hides)
 
-#### Scenario: Nav hides on scroll-down and returns on scroll-up
+#### Scenario: Active section is highlighted
 
-- **WHEN** the user scrolls down past the hero
-- **THEN** the nav translates out of view, and **WHEN** the user then scrolls up the nav reappears
+- **WHEN** the visitor scrolls through the sections
+- **THEN** the nav link for the section currently in view is marked current (gilt underline + `aria-current`), updating as each section enters the viewport, and no link is current while the hero is in view
+
+#### Scenario: Quick jump to a section
+
+- **WHEN** the visitor activates a nav link (click or keyboard)
+- **THEN** the page smooth-scrolls to that section and focus moves to it
 
 ### Requirement: Hero Headline & Intro Reveal
 

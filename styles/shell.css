@@ -67,9 +67,6 @@
   backdrop-filter: blur(14px);
   border-bottom-color: var(--line);
 }
-.nav.is-hidden {
-  transform: translateY(-100%);
-}
 .nav__bar {
   display: flex;
   align-items: center;
@@ -86,11 +83,31 @@
   gap: clamp(1rem, 3vw, 2.75rem);
 }
 .nav__links a {
+  position: relative;
   color: var(--ash);
   transition: color var(--dur-fast) var(--ease);
 }
 .nav__links a:hover {
   color: var(--bone);
+}
+/* Active section indicator — gilt underline (the scroll-spy current link). */
+.nav__links a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -5px;
+  width: 100%;
+  height: 1px;
+  background: var(--gilt);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--dur-med) var(--ease);
+}
+.nav__links a.is-current {
+  color: var(--bone);
+}
+.nav__links a.is-current::after {
+  transform: scaleX(1);
 }
 
 /* ============================================================
