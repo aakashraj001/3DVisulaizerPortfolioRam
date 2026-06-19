@@ -124,7 +124,7 @@ export function openLightbox(project: Project, mediaEl: HTMLElement): void {
       { autoAlpha: 0, y: 16 },
       { autoAlpha: 1, y: 0, duration: 0.5, delay: 0.25, ease: EASE },
     )
-    Flip.from(state, { duration: 0.7, ease: EASE, absolute: true })
+    Flip.from(state, { duration: 0.85, ease: EASE, absolute: true })
   }
 
   closeBtn.focus()
@@ -160,8 +160,8 @@ export function closeLightbox(): void {
   parent.insertBefore(img, parent.firstChild)
   img.classList.remove('lightbox__img')
   Flip.from(state, {
-    duration: 0.55,
-    ease: EASE,
+    duration: 0.5,
+    ease: 'power3.in',
     absolute: true,
     onComplete: () => {
       img.sizes = originSizes
@@ -174,6 +174,6 @@ export function closeLightbox(): void {
       originParent = null
     },
   })
-  gsap.to(backdropEl, { opacity: 0, duration: 0.45, ease: EASE })
+  gsap.to(backdropEl, { opacity: 0, duration: 0.45, ease: 'power3.in' })
   gsap.to(dialogEl.querySelector('.lightbox__cap'), { autoAlpha: 0, duration: 0.3 })
 }

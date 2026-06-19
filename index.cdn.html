@@ -22,6 +22,11 @@
     <link rel="stylesheet" href="./styles/base.css" />
     <link rel="stylesheet" href="./styles/shell.css" />
     <link rel="stylesheet" href="./styles/gallery.css" />
+    <meta name="theme-color" content="#14110e" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%2314110E'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='22' fill='%23B89B6E' text-anchor='middle'%3EB%3C/text%3E%3C/svg%3E"
+    />
 
     <!-- The brief's exact no-build snippet (all GSAP plugins are free). -->
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13/dist/gsap.min.js"></script>
@@ -51,6 +56,8 @@
       </div>
     </header>
 
+    <div class="grain" aria-hidden="true"></div>
+
     <div id="smooth-wrapper">
       <div id="smooth-content">
         <main id="top">
@@ -79,7 +86,7 @@
           </section>
 
           <section class="statement section" id="studio" aria-label="Studio statement">
-            <div class="wrap">
+            <div class="wrap wrap--narrow">
               <blockquote class="statement__quote display">
                 We build the unbuilt — rooms before they are poured, objects before they are made,
                 light before it falls.
@@ -91,7 +98,7 @@
           </section>
 
           <footer class="contact section" id="contact" aria-label="Contact">
-            <div class="wrap">
+            <div class="wrap wrap--narrow">
               <h2 class="contact__line display reveal-up">
                 Let’s build <span class="italic">the unbuilt</span>.
               </h2>
@@ -104,7 +111,8 @@
                 <li><a class="label label--wide" href="#" rel="noopener">LinkedIn</a></li>
               </ul>
               <p class="contact__colophon label reveal-up">
-                © 2026 Studio Bhū — No-build CDN demo (the full Vite app adds the Three.js depth hero)
+                <span>© 2026 Studio Bhū — Architectural Visualization</span>
+                <span>Renders 01–∞ · Composed in the void</span>
               </p>
             </div>
           </footer>
@@ -211,6 +219,7 @@
       projects.forEach((p, i) => {
         const art = document.createElement('article')
         art.className = 'piece reveal-piece'
+        art.classList.add(i === 0 ? 'piece--hero' : i % 4 === 1 || i % 4 === 2 ? 'piece--wide' : 'piece--study')
         art.dataset.category = p.category
         const btn = document.createElement('button')
         btn.type = 'button'
@@ -330,7 +339,10 @@
           const t = document.querySelector(a.getAttribute('href'))
           if (!t) return
           e.preventDefault()
-          smoother ? smoother.scrollTo(t, true, 'top top') : t.scrollIntoView()
+          const navH = document.querySelector('.nav')?.offsetHeight || 64
+          const y = Math.max(0, t.getBoundingClientRect().top + window.scrollY - (navH + 14))
+          // No focus() — it makes browsers jump a viewport-taller section and cancels the smooth scroll.
+          smoother ? smoother.scrollTo(y, true) : window.scrollTo({ top: y, behavior: 'smooth' })
         })
       })
 

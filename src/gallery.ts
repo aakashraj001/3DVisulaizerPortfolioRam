@@ -27,6 +27,10 @@ let activeFilter: Filter = 'all'
 function pieceMarkup(project: Project, index: number): HTMLElement {
   const article = document.createElement('article')
   article.className = 'piece reveal-piece'
+  // Varied museum-hang spans: first piece reads large, then alternate wide/study.
+  article.classList.add(
+    index === 0 ? 'piece--hero' : index % 4 === 1 || index % 4 === 2 ? 'piece--wide' : 'piece--study',
+  )
   article.dataset.category = project.category
 
   const button = document.createElement('button')
@@ -213,24 +217,25 @@ export function animateGallery(): void {
       batch.forEach((piece, i) => {
         const img = piece.querySelector('.media__img')
         const rule = piece.querySelector('.piece__rule')
-        const index = piece.querySelector('.piece__index')
-        const tl = gsap.timeline({ delay: i * 0.09 })
-        // Transform/opacity-only reveal (rise + fade + settle). We deliberately
-        // avoid clip-path: animating it on a GPU-composited layer (this element
-        // is also parallaxed) paints garbage/red on some GPUs.
+        const caption = piece.querySelectorAll('.piece__title, .piece__meta, .piece__index')
+        // Capped, slower cadence so the hang reads as one curated set. Fixed 36px
+        // rise (not yPercent) keeps distance consistent across varied tile heights.
+        // Transform/opacity only — no clip-path (GPU garbage on composited layers).
+        const tl = gsap.timeline({ delay: Math.min(i, 4) * 0.14 })
         tl.fromTo(
           piece,
-          { autoAlpha: 0, yPercent: 5 },
-          { autoAlpha: 1, yPercent: 0, duration: 1.0, ease: EASE, clearProps: 'transform' },
+          { autoAlpha: 0, y: 36 },
+          { autoAlpha: 1, y: 0, duration: 1.1, ease: EASE, clearProps: 'transform' },
         )
           // clearProps so the settled inline transform doesn't shadow the CSS :hover scale.
-          .fromTo(img, { scale: 1.07 }, { scale: 1, duration: 1.2, ease: EASE, clearProps: 'transform' }, 0)
-          .fromTo(rule, { scaleX: 0 }, { scaleX: 1, duration: 0.8, ease: EASE }, 0.25)
+          .fromTo(img, { scale: 1.07 }, { scale: 1, duration: 1.3, ease: EASE, clearProps: 'transform' }, 0)
+          .fromTo(rule, { scaleX: 0 }, { scaleX: 1, duration: 0.8, ease: EASE }, 0.18)
+          // Title + meta + index reveal together as the museum plate.
           .fromTo(
-            index,
-            { autoAlpha: 0, y: 12 },
-            { autoAlpha: 1, y: 0, duration: 0.6, ease: EASE },
-            0.35,
+            caption,
+            { autoAlpha: 0, y: 14 },
+            { autoAlpha: 1, y: 0, duration: 0.7, ease: EASE, stagger: 0.06 },
+            0.3,
           )
       })
     },

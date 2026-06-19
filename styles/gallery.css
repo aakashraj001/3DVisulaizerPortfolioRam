@@ -28,6 +28,8 @@
   height: 100%;
   object-fit: cover;
   opacity: 0;
+  /* Resting cinematic grade so bright photos sit inside the dark room. */
+  filter: saturate(0.86) contrast(1.06) brightness(0.94);
   transition: opacity 0.8s var(--ease), transform var(--dur-slow) var(--ease),
     filter var(--dur-slow) var(--ease);
 }
@@ -38,6 +40,10 @@
 /* ============================================================
    The Index — heading + filters
    ============================================================ */
+.gallery {
+  padding-top: var(--section-y);
+  padding-bottom: var(--section-y-sm);
+}
 .gallery__head {
   display: flex;
   align-items: flex-end;
@@ -61,9 +67,10 @@
   align-items: center;
   gap: clamp(1.5rem, 4vw, 3rem);
   padding: 0.85rem var(--gutter);
-  background: var(--void-90);
-  backdrop-filter: blur(12px);
+  background: rgba(18, 15, 12, 0.72);
+  backdrop-filter: blur(18px) saturate(1.1);
   border-bottom: 1px solid var(--line);
+  box-shadow: inset 0 1px 0 rgba(236, 229, 216, 0.04);
   transform: translateY(-110%);
   opacity: 0;
   pointer-events: none;
@@ -99,6 +106,9 @@
 }
 .gallery__title {
   font-size: var(--fs-display);
+  font-variation-settings: 'opsz' 120;
+  letter-spacing: -0.022em;
+  text-wrap: balance;
   color: var(--bone);
 }
 .gallery__filters {
@@ -127,25 +137,53 @@
 .filter:hover {
   color: var(--bone);
 }
+.filter:hover::after {
+  transform: scaleX(1);
+  background: var(--gilt-40);
+  transition: transform var(--dur-fast) var(--ease);
+}
 .filter.is-active {
   color: var(--bone);
 }
 .filter.is-active::after {
   transform: scaleX(1);
+  background: var(--gilt);
 }
 
 /* ============================================================
-   Asymmetric gallery grid (2-col desktop, 1-col mobile)
+   Museum-hang grid — 12 columns with varied spans so scale AND vertical
+   position vary (not a uniform 2-col). Resets to one column on mobile.
    ============================================================ */
 .gallery__grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: clamp(2.5rem, 6vw, 7rem) clamp(1.5rem, 4vw, 4rem);
+  grid-template-columns: repeat(12, 1fr);
+  grid-auto-flow: row dense;
+  column-gap: clamp(1.5rem, 4vw, 4rem);
+  row-gap: clamp(4rem, 9vw, 9rem);
   align-items: start;
 }
-/* Museum-hang asymmetry: drop the second column. */
-.piece:nth-child(even) {
-  margin-top: clamp(3rem, 11vw, 10rem);
+.piece--hero {
+  grid-column: 2 / span 9;
+  margin-bottom: clamp(2rem, 5vw, 5rem);
+}
+.piece--wide {
+  grid-column: 1 / span 7;
+}
+.piece--study {
+  grid-column: 8 / span 5;
+  margin-top: clamp(4rem, 12vw, 11rem);
+}
+
+/* Hung-artwork surface: 1px top highlight + soft drop shadow + seat gradient. */
+.piece__media {
+  box-shadow: 0 1px 0 rgba(236, 229, 216, 0.04), 0 24px 48px -28px rgba(0, 0, 0, 0.7);
+}
+.piece__media::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(20, 17, 14, 0) 55%, rgba(20, 17, 14, 0.32) 100%);
 }
 
 .piece {
@@ -172,35 +210,42 @@
   transition: opacity var(--dur-med) var(--ease);
 }
 .piece__cap {
-  margin-top: 1.3rem;
+  margin-top: 1.5rem;
+  max-width: 30ch;
 }
 .piece__rule {
   height: 1px;
-  width: 100%;
+  width: 48px;
   background: var(--line);
   border: 0;
-  margin: 0 0 1rem;
+  margin: 0 0 0.9rem;
   transform-origin: left;
 }
 .piece__title {
   font-size: var(--fs-title);
+  font-variation-settings: 'opsz' 22;
+  text-wrap: balance;
   color: var(--bone);
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.4rem;
 }
 .piece__meta {
   color: var(--ash);
+  font-feature-settings: 'tnum' 1, 'onum' 1;
 }
 .piece__index {
   display: block;
-  margin-top: 0.85rem;
+  margin-top: 1rem;
+  letter-spacing: 0.24em;
   color: var(--gilt);
+  font-feature-settings: 'tnum' 1;
+  font-variant-numeric: tabular-nums;
 }
 
 /* Hover — fine pointer + motion only (absent on touch / reduced motion). */
 @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
   .piece__open:hover .media__img {
-    transform: scale(1.045);
-    filter: brightness(1.12);
+    transform: scale(1.05);
+    filter: saturate(0.95) contrast(1.04) brightness(1);
   }
   .piece__open:hover .piece__frame {
     opacity: 1;
@@ -218,7 +263,9 @@
 .js-motion .reveal-piece .piece__rule {
   transform: scaleX(0);
 }
-.js-motion .reveal-piece .piece__index {
+.js-motion .reveal-piece .piece__index,
+.js-motion .reveal-piece .piece__title,
+.js-motion .reveal-piece .piece__meta {
   opacity: 0;
 }
 
@@ -236,7 +283,7 @@
 .lightbox__backdrop {
   position: absolute;
   inset: 0;
-  background: var(--void-90);
+  background: radial-gradient(80% 80% at 50% 45%, rgba(28, 24, 19, 0.92) 0%, rgba(12, 10, 8, 0.97) 100%);
   backdrop-filter: blur(10px);
 }
 .lightbox__dialog {
@@ -260,18 +307,22 @@
   height: auto !important;
   object-fit: contain;
   opacity: 1 !important;
+  filter: none; /* full-quality in the viewing room (gallery tiles are graded) */
   border-radius: var(--radius);
+  box-shadow: 0 40px 80px -40px rgba(0, 0, 0, 0.8);
 }
 .lightbox__cap {
   text-align: center;
 }
 .lightbox__title {
   font-size: var(--fs-title);
+  font-variation-settings: 'opsz' 22;
   color: var(--bone);
 }
 .lightbox__meta {
   color: var(--gilt);
   margin-top: 0.6rem;
+  font-feature-settings: 'tnum' 1, 'onum' 1;
 }
 .lightbox__close {
   position: absolute;
@@ -302,8 +353,12 @@
     grid-template-columns: 1fr;
     gap: clamp(3rem, 12vw, 5rem);
   }
-  .piece:nth-child(even) {
+  .piece--hero,
+  .piece--wide,
+  .piece--study {
+    grid-column: 1 / -1;
     margin-top: 0;
+    margin-bottom: 0;
   }
   .gallery__head {
     align-items: flex-start;

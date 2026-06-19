@@ -16,12 +16,50 @@ html {
   -webkit-text-size-adjust: 100%;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
+  font-optical-sizing: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--gilt-40) transparent;
+}
+
+/* Recessed, warm scrollbar so it doesn't break the dark room. */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(236, 229, 216, 0.16);
+  border: 3px solid var(--void);
+  border-radius: var(--radius);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--gilt-40);
+}
+
+/* Gilt-tinted text selection (not OS blue). */
+::selection {
+  background: var(--gilt-18);
+  color: var(--bone);
+  text-shadow: none;
+}
+::-moz-selection {
+  background: var(--gilt-18);
+  color: var(--bone);
+}
+img::selection,
+picture::selection,
+canvas::selection {
+  background: transparent;
 }
 
 /* ScrollSmoother requires the body to NOT be the scroller; it transforms
    #smooth-content inside #smooth-wrapper. height stays auto. */
 body {
-  background: var(--void);
+  background-color: var(--void);
+  background-image: radial-gradient(140% 70% at 50% -10%, var(--void-warm) 0%, var(--void) 55%);
+  background-attachment: fixed;
   color: var(--bone);
   font-family: var(--font-body);
   font-size: var(--fs-body);
@@ -76,6 +114,10 @@ h3,
   color: var(--ash);
 }
 
+.label {
+  word-spacing: 0.1em;
+}
+
 .label--wide {
   letter-spacing: var(--ls-label-wide);
   font-size: var(--fs-label-lg);
@@ -96,6 +138,9 @@ h3,
   margin-inline: auto;
   max-width: 1680px;
 }
+.wrap--narrow {
+  max-width: 1180px;
+}
 
 .section {
   padding-block: var(--section-y);
@@ -103,8 +148,11 @@ h3,
 
 /* ---- Visible gilt focus ring (keyboard) ---- */
 :focus-visible {
-  outline: 1px solid var(--gilt);
+  outline: 1.5px solid var(--gilt);
   outline-offset: 3px;
+  border-radius: var(--radius);
+  box-shadow: 0 0 0 4px var(--gilt-18);
+  transition: box-shadow var(--dur-fast) var(--ease);
 }
 /* Don't show the ring for mouse users who don't need it. */
 :focus:not(:focus-visible) {

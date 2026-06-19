@@ -8,6 +8,7 @@
 :root {
   /* ---- Palette ---- */
   --void: #14110e;          /* page background — the room          */
+  --void-warm: #1a1611;     /* warm lift where light falls from top */
   --char: #1c1813;          /* lifted panels                       */
   --bone: #ece5d8;          /* primary type                        */
   --ash: #8a8073;           /* secondary / captions                */
@@ -42,6 +43,8 @@
   /* ---- Space & rhythm ---- */
   --gutter: clamp(1.25rem, 5vw, 6rem);
   --section-y: clamp(6rem, 14vh, 14rem);
+  --section-y-sm: clamp(4.5rem, 9vh, 9rem);
+  --section-y-lg: clamp(9rem, 22vh, 22rem);
   --radius: 1px;            /* near-zero, per the design language   */
 
   /* ---- Motion ---- */

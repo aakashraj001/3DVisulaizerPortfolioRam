@@ -4,7 +4,7 @@
    smooth-scroll; animateNav() registers the scroll-driven class toggles.
    ============================================================ */
 
-import { ScrollTrigger } from './motion'
+import { ScrollTrigger, prefersReducedMotion } from './motion'
 import { getSmoother } from './smoothScroll'
 
 export function mountNav(): void {
@@ -13,13 +13,25 @@ export function mountNav(): void {
       const target = document.querySelector<HTMLElement>(a.getAttribute('href') || '')
       if (!target) return
       e.preventDefault()
+
+      const navH = document.querySelector<HTMLElement>('.nav')?.offsetHeight ?? 64
+      const gap = navH + 14 // land just below the fixed nav
       const smoother = getSmoother()
-      if (smoother) smoother.scrollTo(target, true, 'top top')
-      else target.scrollIntoView({ behavior: 'auto', block: 'start' })
-      // Move focus to the destination so keyboard users (esp. the skip link)
-      // actually land there. Make it programmatically focusable if needed.
-      if (!target.hasAttribute('tabindex')) target.setAttribute('tabindex', '-1')
-      target.focus({ preventScroll: true })
+
+      // Absolute document position of the target = its rendered top (rect already
+      // accounts for the ScrollSmoother transform) + the native scroll position.
+      // Using window.scrollY (not smoother.scrollTop) avoids a NaN that made
+      // scrollTo jump to the end. Works whether or not the smoother exists.
+      const y = Math.max(0, target.getBoundingClientRect().top + window.scrollY - gap)
+      if (smoother) {
+        smoother.scrollTo(y, true)
+      } else {
+        window.scrollTo({ top: y, behavior: prefersReducedMotion() ? 'auto' : 'smooth' })
+      }
+      // NB: we deliberately do NOT call target.focus() here. Focusing a
+      // viewport-taller section makes browsers ignore preventScroll and jump the
+      // page (the "Index goes off" bug), and even focusing a sentinel cancels
+      // ScrollSmoother's in-flight tween. The smooth scroll is the affordance.
     })
   })
 }

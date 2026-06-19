@@ -23,6 +23,11 @@
       href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..500;1,9..144,300..400&family=Inter:wght@400;500&display=swap"
       rel="stylesheet"
     />
+    <meta name="theme-color" content="#14110e" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%2314110E'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='22' fill='%23B89B6E' text-anchor='middle'%3EB%3C/text%3E%3C/svg%3E"
+    />
   </head>
   <body>
     <a class="skip-link" href="#index" data-scroll>Skip to works</a>
@@ -46,6 +51,9 @@
         </nav>
       </div>
     </header>
+
+    <!-- Film grain + warm vignette overlay (static, decorative). -->
+    <div class="grain" aria-hidden="true"></div>
 
     <div id="smooth-wrapper">
       <div id="smooth-content">
@@ -78,7 +86,7 @@
 
           <!-- STUDIO STATEMENT -->
           <section class="statement section" id="studio" aria-label="Studio statement">
-            <div class="wrap">
+            <div class="wrap wrap--narrow">
               <blockquote class="statement__quote display">
                 We build the unbuilt — rooms before they are poured, objects before they are made,
                 light before it falls.
@@ -91,7 +99,7 @@
 
           <!-- CONTACT / FOOTER -->
           <footer class="contact section" id="contact" aria-label="Contact">
-            <div class="wrap">
+            <div class="wrap wrap--narrow">
               <h2 class="contact__line display reveal-up">
                 Let’s build <span class="italic">the unbuilt</span>.
               </h2>
@@ -104,7 +112,8 @@
                 <li><a class="label label--wide" href="#" rel="noopener">LinkedIn</a></li>
               </ul>
               <p class="contact__colophon label reveal-up">
-                © 2026 Studio Bhū — Built with GSAP ScrollSmoother &amp; Three.js
+                <span>© 2026 Studio Bhū — Architectural Visualization</span>
+                <span>Renders 01–∞ · Composed in the void</span>
               </p>
             </div>
           </footer>
