@@ -1,8 +1,8 @@
 /* ============================================================
-   Point the gallery + hero at real internet photos (themed, via loremflickr —
-   which loads where picsum is blocked). Keeps the featured depth map local
-   (depth maps are smooth gradients, not photos). The {w}/{h} template + a
-   stable ?lock seed keep the responsive srcset serving one consistent photo.
+   Point the gallery + hero at real, curated Unsplash photos (no watermarks,
+   CORS-clean so the WebGL hero can texture them, auto=format → WebP/AVIF).
+   The {w}/{h} tokens are filled by src/images.ts so the responsive srcset
+   requests correctly-cropped sizes. Featured depth map stays local (gradient).
 
    Run:  node scripts/use-internet-images.mjs
    Offline alternative: node scripts/generate-placeholders.mjs (local SVGs).
@@ -15,27 +15,27 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..')
 const dataPath = join(ROOT, 'data', 'projects.json')
 const data = JSON.parse(readFileSync(dataPath, 'utf8'))
 
-// Per-title themes so each section reads as the right kind of render.
-const THEME = {
-  'Atelier of Quiet Light': 'architecture,concrete,light',
-  'The Cantilever House': 'architecture,modern,house',
-  'Reading Room, North Wing': 'library,interior,room',
-  'Brass & Travertine Bath': 'bathroom,marble,interior',
-  'Vessel No. 7': 'ceramic,vase,pottery',
-  'Folded Chair Study': 'chair,furniture,design',
-  'Caustic Field': 'light,abstract,water',
-  'Dust & Volume': 'smoke,light,dark',
+// Curated, verified Unsplash photo IDs, matched to each piece's mood/category.
+const PHOTO = {
+  'Atelier of Quiet Light': '1431576901776-e539bd916ba2', // dramatic light shaft
+  'The Cantilever House': '1486325212027-8081e485255e', // dusk architecture
+  'Reading Room, North Wing': '1513584684374-8bab748fbf90', // dark moody interior
+  'Brass & Travertine Bath': '1567016376408-0226e4d0c1ea', // low-lit interior
+  'Vessel No. 7': '1567538096630-e0c55bd6374c', // sculptural object
+  'Folded Chair Study': '1581539250439-c96689b516dd', // chair, studio light
+  'Caustic Field': '1541701494587-cb58502866ab', // dark light streak
+  'Dust & Volume': '1557672172-298e090bd0f1', // volumetric smoke
 }
-const FALLBACK = { architecture: 'architecture,building', interior: 'interior,room', product: 'design,object', experimental: 'abstract,light' }
+const FALLBACK = '1487958449943-2429e8be8625'
 
 for (const p of data.projects) {
-  const tags = THEME[p.title] || FALLBACK[p.category] || 'architecture'
-  // {w}/{h} are filled by src/images.ts; ?lock pins one photo across all srcset widths.
-  p.image.src = `https://loremflickr.com/{w}/{h}/${tags}?lock=${p.order}`
+  const id = PHOTO[p.title] || FALLBACK
+  // {w}/{h} filled by src/images.ts; fit/crop keep our aspect; auto=format → WebP/AVIF.
+  p.image.src = `https://images.unsplash.com/photo-${id}?w={w}&h={h}&fit=crop&crop=entropy&q=72&auto=format`
   delete p.image.lqip
-  // Leave p.depthMap pointing at the local SVG depth gradient (good for the shader).
+  // Leave p.depthMap on the local SVG depth gradient (good for the shader).
 }
 data.$comment =
-  'Placeholder content behind the same interface the CMS will satisfy. Images are real themed internet photos via loremflickr (works where picsum is blocked); {w}/{h} are filled by src/images.ts and ?lock pins one photo across srcset widths. Run scripts/generate-placeholders.mjs for offline local SVG renders instead, or set VITE_IMAGE_CDN_BASE + CDN paths for your own renders.'
+  'Placeholder content behind the same interface the CMS will satisfy. Images are curated real photos from Unsplash (no watermarks, CORS-clean, WebP/AVIF via auto=format); {w}/{h} are filled by src/images.ts for the responsive srcset. Run scripts/generate-placeholders.mjs for offline local SVG renders instead, or set VITE_IMAGE_CDN_BASE + CDN paths for your own renders.'
 writeFileSync(dataPath, JSON.stringify(data, null, 2) + '\n')
-console.log(`Pointed ${data.projects.length} projects at loremflickr themed photos.`)
+console.log(`Pointed ${data.projects.length} projects at curated Unsplash photos.`)

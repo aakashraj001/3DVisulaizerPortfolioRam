@@ -32,12 +32,12 @@ The gallery SHALL present render "pieces" in a two-column asymmetric grid on des
 
 ### Requirement: Gallery Piece Entrance Reveal
 
-As a piece scrolls into view (full experience), it SHALL reveal via a `clip-path` inset wipe (image uncovers from the bottom) combined with a slight scale-down from 1.06 to 1.0, driven by `ScrollTrigger.batch()` with a stagger across pieces entering together. The caption hairline SHALL draw in via `scaleX` 0→1 and the index number SHALL fade up. Under reduced motion pieces SHALL appear in their final state with no wipe, scale, or stagger.
+As a piece scrolls into view (full experience), it SHALL reveal with a compositor-safe entrance — a fade with a slight rise plus a gentle image scale-down (~1.07 → 1.0) — driven by `ScrollTrigger.batch()` with a stagger across pieces entering together. The caption hairline SHALL draw in via `scaleX` 0→1 and the index number SHALL fade up. The reveal SHALL animate only `transform`/`opacity` and SHALL NOT use `clip-path` (animating `clip-path` on a GPU-composited, parallaxed layer paints garbage/red on some GPUs). Under reduced motion pieces SHALL appear in their final state with no rise, scale, or stagger.
 
-#### Scenario: Staggered clip-path reveal
+#### Scenario: Staggered entrance reveal
 
 - **WHEN** a row of pieces enters the viewport (full experience)
-- **THEN** each image wipes open from the bottom while scaling 1.06→1.0 with a batched stagger, the caption hairline draws in, and the index number fades up
+- **THEN** each piece fades and rises in while the image settles from a slight scale (~1.07→1.0) with a batched stagger, the caption hairline draws in, and the index number fades up — using transform/opacity only (no clip-path)
 
 #### Scenario: Reduced-motion reveal
 

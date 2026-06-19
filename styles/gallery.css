@@ -169,9 +169,10 @@
   }
 }
 
-/* ---- Motion-only initial states (no reduced-motion FOUC) ---- */
-.js-motion .reveal-piece .piece__media {
-  clip-path: inset(0 0 100% 0);
+/* ---- Motion-only initial states (no reduced-motion FOUC) ----
+   Opacity/transform only — no clip-path (GPU garbage on composited layers). */
+.js-motion .reveal-piece {
+  opacity: 0;
 }
 .js-motion .reveal-piece .piece__rule {
   transform: scaleX(0);

@@ -174,24 +174,26 @@ export function pinIndexHeader(): void {
   })
 }
 
-/** Register the staggered clip-path reveal for pieces. Motion branches only. */
+/** Register the staggered entrance reveal for pieces. Motion branches only. */
 export function animateGallery(): void {
   ScrollTrigger.batch('.reveal-piece', {
     start: 'top 88%',
     onEnter: (batch) => {
       batch.forEach((piece, i) => {
-        const media = piece.querySelector('.piece__media')
         const img = piece.querySelector('.media__img')
         const rule = piece.querySelector('.piece__rule')
         const index = piece.querySelector('.piece__index')
         const tl = gsap.timeline({ delay: i * 0.09 })
+        // Transform/opacity-only reveal (rise + fade + settle). We deliberately
+        // avoid clip-path: animating it on a GPU-composited layer (this element
+        // is also parallaxed) paints garbage/red on some GPUs.
         tl.fromTo(
-          media,
-          { clipPath: 'inset(0 0 100% 0)' },
-          { clipPath: 'inset(0 0 0% 0)', duration: 1.1, ease: EASE },
+          piece,
+          { autoAlpha: 0, yPercent: 5 },
+          { autoAlpha: 1, yPercent: 0, duration: 1.0, ease: EASE, clearProps: 'transform' },
         )
           // clearProps so the settled inline transform doesn't shadow the CSS :hover scale.
-          .fromTo(img, { scale: 1.06 }, { scale: 1, duration: 1.2, ease: EASE, clearProps: 'transform' }, 0)
+          .fromTo(img, { scale: 1.07 }, { scale: 1, duration: 1.2, ease: EASE, clearProps: 'transform' }, 0)
           .fromTo(rule, { scaleX: 0 }, { scaleX: 1, duration: 0.8, ease: EASE }, 0.25)
           .fromTo(
             index,

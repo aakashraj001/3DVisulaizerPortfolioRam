@@ -348,11 +348,12 @@
           start: 'top 88%',
           onEnter: (b) =>
             b.forEach((pc, i) => {
-              const M = pc.querySelector('.piece__media'), IM = pc.querySelector('.media__img'),
+              const IM = pc.querySelector('.media__img'),
                 RU = pc.querySelector('.piece__rule'), IX = pc.querySelector('.piece__index')
+              // transform/opacity reveal — no clip-path (GPU garbage on composited layers)
               gsap.timeline({ delay: i * 0.09 })
-                .fromTo(M, { clipPath: 'inset(0 0 100% 0)' }, { clipPath: 'inset(0 0 0% 0)', duration: 1.1, ease: EASE })
-                .fromTo(IM, { scale: 1.06 }, { scale: 1, duration: 1.2, ease: EASE, clearProps: 'transform' }, 0)
+                .fromTo(pc, { autoAlpha: 0, yPercent: 5 }, { autoAlpha: 1, yPercent: 0, duration: 1.0, ease: EASE, clearProps: 'transform' })
+                .fromTo(IM, { scale: 1.07 }, { scale: 1, duration: 1.2, ease: EASE, clearProps: 'transform' }, 0)
                 .fromTo(RU, { scaleX: 0 }, { scaleX: 1, duration: 0.8, ease: EASE }, 0.25)
                 .fromTo(IX, { autoAlpha: 0, y: 12 }, { autoAlpha: 1, y: 0, duration: 0.6, ease: EASE }, 0.35)
             }),
