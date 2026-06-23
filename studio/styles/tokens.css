@@ -1,0 +1,81 @@
+/* ============================================================
+   BUNQ Labs — design tokens. Bold, pop, minimal-but-funky.
+   Light/paper editorial body + a dark hero. Pop accents are used
+   BOLDLY (as fills, blocks, CTAs) — the opposite of variant one's
+   gilt restraint. Every component reads from these tokens.
+   ============================================================ */
+
+:root {
+  /* ---- Core palette ---- */
+  --paper: #f5f2ec; /* body background */
+  --bone: #fbfaf7; /* cards / lifted */
+  --ink: #0e0e0c; /* type + dark hero bg */
+  --ink-soft: #1a1a16; /* dark panels */
+  --ash: #6f6e68; /* secondary / mono labels */
+  --rule: rgba(14, 14, 12, 0.14); /* hairlines on light */
+  --rule-bone: rgba(251, 250, 247, 0.16); /* hairlines on dark */
+
+  /* ---- Pop accents (used as fills/blocks) ---- */
+  --pop-violet: #6e2bff;
+  --pop-red: #ff3b23;
+  --pop-lime: #c8ff1e;
+  --pop-lilac: #d9a6ff;
+  --pop: var(--pop-violet); /* default/primary accent (overridable per scope) */
+
+  /* ---- Type ---- */
+  --font-display: "Space Grotesk", "Arial Black", system-ui, sans-serif;
+  --font-body: "Inter", system-ui, -apple-system, sans-serif;
+  --font-mono: "Space Mono", "JetBrains Mono", ui-monospace, monospace;
+
+  --fs-mega: clamp(3.5rem, 13vw, 13rem); /* giant statements / stats */
+  --fs-display: clamp(2.5rem, 7vw, 6rem);
+  --fs-h2: clamp(2rem, 4.5vw, 4rem);
+  --fs-title: clamp(1.25rem, 2vw, 1.9rem);
+  --fs-body: clamp(1rem, 1.05vw, 1.12rem);
+  --fs-lead: clamp(1.25rem, 2.2vw, 1.9rem);
+  --fs-label: 0.72rem; /* mono micro-label */
+
+  --ls-label: 0.16em;
+  --ls-tight: -0.03em; /* display tracking */
+
+  /* ---- Space ---- */
+  --gutter: clamp(1.25rem, 5vw, 5.5rem);
+  --section-y: clamp(5rem, 12vh, 12rem);
+  --section-y-lg: clamp(8rem, 18vh, 18rem);
+  --maxw: 1640px;
+
+  /* ---- Shape ---- */
+  --r-block: 2px; /* near-0 on type blocks/buttons */
+  --r-card: clamp(14px, 1.6vw, 26px); /* big radii on image cards */
+
+  /* ---- Motion (snappy) ---- */
+  --ease: cubic-bezier(0.16, 1, 0.3, 1); /* expo-out feel */
+  --ease-inout: cubic-bezier(0.85, 0, 0.15, 1);
+  --dur-fast: 0.32s;
+  --dur-med: 0.6s;
+
+  /* ---- Layers ---- */
+  --z-canvas: 0;
+  --z-content: 10;
+  --z-marquee: 20;
+  --z-nav: 60;
+  --z-cursor: 70;
+  --z-lightbox: 80;
+  --z-preloader: 100;
+
+  color-scheme: light;
+}
+
+/* Map an accent token name → colour (set data-accent="violet|red|lime|lilac"). */
+[data-accent="violet"] {
+  --pop: var(--pop-violet);
+}
+[data-accent="red"] {
+  --pop: var(--pop-red);
+}
+[data-accent="lime"] {
+  --pop: var(--pop-lime);
+}
+[data-accent="lilac"] {
+  --pop: var(--pop-lilac);
+}

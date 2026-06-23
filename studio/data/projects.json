@@ -1,0 +1,167 @@
+{
+  "$comment": "Placeholder work behind the source-agnostic data layer. Each project has a serviceFamily (one of the taxonomy ids) + discipline tags + an optional per-project accent. Images are CORS-clean Unsplash (auto=format → WebP/AVIF; {w}/{h} filled by src/images.ts) so the WebGL hero can texture them. Swap VITE_CMS_SOURCE to source from a real CMS; adding work = a new entry here, no code.",
+  "projects": [
+    {
+      "title": "Creo Concepts",
+      "client": "Creo",
+      "serviceFamily": "visualisation",
+      "disciplines": ["Architectural rendering", "Walkthroughs"],
+      "year": 2026,
+      "summary": "Brand & web for a pioneer in built environments — a full visual story from masterplan render to interactive walkthrough.",
+      "url": "#",
+      "accent": "violet",
+      "featured": true,
+      "order": 1,
+      "image": {
+        "src": "https://images.unsplash.com/photo-1486325212027-8081e485255e?w={w}&h={h}&fit=crop&crop=entropy&q=72&auto=format",
+        "width": 1600,
+        "height": 1200,
+        "alt": "A dusk-lit architectural tower render for Creo Concepts."
+      }
+    },
+    {
+      "title": "Avenir Motors",
+      "client": "Avenir",
+      "serviceFamily": "visualisation",
+      "disciplines": ["Product rendering", "Animation"],
+      "year": 2025,
+      "summary": "Studio product films and hero stills for a next-gen mobility brand.",
+      "url": "#",
+      "accent": "red",
+      "featured": true,
+      "order": 2,
+      "image": {
+        "src": "https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?w={w}&h={h}&fit=crop&crop=entropy&q=72&auto=format",
+        "width": 1600,
+        "height": 1200,
+        "alt": "A sculptural product render for Avenir Motors."
+      }
+    },
+    {
+      "title": "Nova Frame",
+      "client": "Nova",
+      "serviceFamily": "visualisation",
+      "disciplines": ["Interactive presentations", "Architectural rendering"],
+      "year": 2025,
+      "summary": "A real-time presentation tool that lets clients walk an unbuilt scheme.",
+      "url": "#",
+      "accent": "lime",
+      "featured": true,
+      "order": 3,
+      "image": {
+        "src": "https://images.unsplash.com/photo-1431576901776-e539bd916ba2?w={w}&h={h}&fit=crop&crop=entropy&q=72&auto=format",
+        "width": 1600,
+        "height": 1200,
+        "alt": "A render of a daylight atrium for Nova Frame."
+      }
+    },
+    {
+      "title": "Aureon",
+      "client": "Aureon",
+      "serviceFamily": "visualisation",
+      "disciplines": ["Animation", "Walkthroughs"],
+      "year": 2024,
+      "summary": "Looping interior motion pieces for a hospitality launch.",
+      "url": "#",
+      "accent": "lilac",
+      "featured": false,
+      "order": 4,
+      "image": {
+        "src": "https://images.unsplash.com/photo-1513584684374-8bab748fbf90?w={w}&h={h}&fit=crop&crop=entropy&q=72&auto=format",
+        "width": 1500,
+        "height": 1200,
+        "alt": "A moody interior render for Aureon."
+      }
+    },
+    {
+      "title": "Lumen Atelier",
+      "client": "Lumen",
+      "serviceFamily": "visualisation",
+      "disciplines": ["Architectural rendering", "Product rendering"],
+      "year": 2024,
+      "summary": "Catalogue stills bridging architecture and product for a lighting house.",
+      "url": "#",
+      "accent": "violet",
+      "featured": false,
+      "order": 5,
+      "image": {
+        "src": "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w={w}&h={h}&fit=crop&crop=entropy&q=72&auto=format",
+        "width": 1600,
+        "height": 1200,
+        "alt": "An architectural facade render for Lumen Atelier."
+      }
+    },
+    {
+      "title": "Gastón n°27",
+      "client": "Gastón",
+      "serviceFamily": "visual-identity",
+      "disciplines": ["Packaging", "Brand graphics"],
+      "year": 2025,
+      "summary": "A loud, tactile packaging system for a small-batch maker.",
+      "url": "#",
+      "accent": "red",
+      "featured": true,
+      "order": 6,
+      "image": {
+        "src": "https://images.unsplash.com/photo-1557672172-298e090bd0f1?w={w}&h={h}&fit=crop&crop=entropy&q=72&auto=format",
+        "width": 1600,
+        "height": 1200,
+        "alt": "Vivid brand graphics for Gastón n°27 packaging."
+      }
+    },
+    {
+      "title": "Sensaya",
+      "client": "Sensaya",
+      "serviceFamily": "visual-identity",
+      "disciplines": ["Brand graphics", "Publication design"],
+      "year": 2024,
+      "summary": "A quiet, confident identity and editorial system for a wellness label.",
+      "url": "#",
+      "accent": "violet",
+      "featured": false,
+      "order": 7,
+      "image": {
+        "src": "https://images.unsplash.com/photo-1567016376408-0226e4d0c1ea?w={w}&h={h}&fit=crop&crop=entropy&q=72&auto=format",
+        "width": 1600,
+        "height": 1200,
+        "alt": "Editorial spreads for the Sensaya identity."
+      }
+    },
+    {
+      "title": "Califo Hotel",
+      "client": "Califo",
+      "serviceFamily": "visual-identity",
+      "disciplines": ["Publication design", "Brand graphics"],
+      "year": 2023,
+      "summary": "A guest book and wayfinding suite for a coastal hotel.",
+      "url": "#",
+      "accent": "lime",
+      "featured": false,
+      "order": 8,
+      "image": {
+        "src": "https://images.unsplash.com/photo-1541701494587-cb58502866ab?w={w}&h={h}&fit=crop&crop=entropy&q=72&auto=format",
+        "width": 1600,
+        "height": 1200,
+        "alt": "A publication spread for Califo Hotel."
+      }
+    },
+    {
+      "title": "Philo",
+      "client": "Philo",
+      "serviceFamily": "visual-identity",
+      "disciplines": ["Packaging"],
+      "year": 2023,
+      "summary": "Minimal, playful packaging for a plant-based drinks startup.",
+      "url": "#",
+      "accent": "lilac",
+      "featured": false,
+      "order": 9,
+      "image": {
+        "src": "https://images.unsplash.com/photo-1503602642458-232111445657?w={w}&h={h}&fit=crop&crop=entropy&q=72&auto=format",
+        "width": 1500,
+        "height": 1200,
+        "alt": "Packaging concepts for Philo."
+      }
+    }
+  ]
+}

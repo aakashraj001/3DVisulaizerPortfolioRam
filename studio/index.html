@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <script>
+      try {
+        if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches)
+          document.documentElement.classList.add('js-motion')
+      } catch (e) {}
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BUNQ Labs — Digital Design & Visualisation Studio</title>
+    <meta
+      name="description"
+      content="BUNQ Labs — a digital design & visualisation studio. Architectural and product rendering, animation, walkthroughs, interactive presentations, and visual identity."
+    />
+    <meta name="theme-color" content="#0e0e0c" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Space+Mono:wght@400;700&family=Inter:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230E0E0C'/%3E%3Ctext x='16' y='24' font-family='Space Grotesk,Arial' font-weight='700' font-size='22' fill='%236E2BFF' text-anchor='middle'%3EB%3C/text%3E%3C/svg%3E"
+    />
+  </head>
+  <body>
+    <a class="skip-link" href="#work" data-scroll>Skip to work</a>
+
+    <div class="preloader" aria-hidden="true">
+      <div class="preloader__inner">
+        <span class="preloader__mark display">BUNQ</span>
+        <span class="preloader__count label tnum">000</span>
+      </div>
+    </div>
+
+    <header class="nav">
+      <div class="nav__bar wrap">
+        <a class="nav__mark display" href="#top" data-scroll>BUNQ<span>✲</span></a>
+        <button class="nav__sound label" type="button" aria-pressed="false">
+          Sound <span class="nav__sound-state">OFF</span>
+        </button>
+        <nav class="nav__links" aria-label="Primary">
+          <a href="#work" data-scroll class="label">Work</a>
+          <a href="#about" data-scroll class="label">About</a>
+          <a href="#contact" data-scroll class="label">Contact</a>
+        </nav>
+      </div>
+    </header>
+
+    <div id="smooth-wrapper">
+      <div id="smooth-content">
+        <main id="top">
+          <!-- HERO -->
+          <section class="hero" aria-label="Featured work">
+            <div class="hero__bg"><!-- WebGL canvas injected; CSS static fallback --></div>
+            <div class="hero__inner wrap">
+              <p class="hero__eyebrow label">
+                <span class="hero__eyebrow-glyph" aria-hidden="true">✺</span> Featured work
+              </p>
+              <h1 class="hero__statement display">Design &amp; visualisation<br />for the built world.</h1>
+              <div class="hero__stack"><!-- featured cards injected --></div>
+              <div class="hero__controls">
+                <button class="hero__prev btn" type="button" aria-label="Previous work">←</button>
+                <p class="hero__active-title label label--ink" aria-live="polite"></p>
+                <button class="hero__next btn" type="button" aria-label="Next work">→</button>
+              </div>
+              <a class="hero__cue label" href="#work" data-scroll>View work ↓</a>
+            </div>
+          </section>
+
+          <!-- WORK -->
+          <section class="work" id="work" aria-label="Work">
+            <div class="wrap work__head">
+              <h2 class="work__title display">Work</h2>
+              <div class="work__filters"></div>
+            </div>
+            <div class="work__rail"><div class="work__row"><!-- cards injected --></div></div>
+          </section>
+
+          <!-- SERVICES -->
+          <section class="services section" id="services" aria-label="Services">
+            <div class="wrap">
+              <p class="label services__eyebrow">What we do — 02 active, 03 in development</p>
+              <div class="services__list"><!-- families injected --></div>
+            </div>
+          </section>
+
+          <!-- STATS -->
+          <section class="stats section" aria-label="By the numbers">
+            <div class="wrap stats__grid">
+              <div class="stat reveal">
+                <span class="stat__row"><span class="stat__num display tnum" data-count="120">0</span><span class="stat__suffix display">+</span></span>
+                <span class="label">Projects shipped</span>
+              </div>
+              <div class="stat reveal">
+                <span class="stat__row"><span class="stat__num display tnum" data-count="9">0</span></span>
+                <span class="label">Years in practice</span>
+              </div>
+              <div class="stat reveal">
+                <span class="stat__row"><span class="stat__num display tnum" data-count="5">0</span></span>
+                <span class="label">Service families</span>
+              </div>
+            </div>
+          </section>
+
+          <!-- PROCESS -->
+          <section class="process section" aria-label="Process">
+            <div class="wrap">
+              <p class="label">How we work</p>
+              <ol class="process__list">
+                <li class="process__step reveal">
+                  <span class="process__n display tnum">1</span>
+                  <h3 class="process__h display">Start</h3>
+                  <p>We dig into the brief, the site and the story — and decide what the work has to do.</p>
+                </li>
+                <li class="process__step reveal">
+                  <span class="process__n display tnum">2</span>
+                  <h3 class="process__h display">Build</h3>
+                  <p>Models, renders, systems and prototypes — made loud, made precise.</p>
+                </li>
+                <li class="process__step reveal">
+                  <span class="process__n display tnum">3</span>
+                  <h3 class="process__h display">Ship</h3>
+                  <p>We deliver assets that land — stills, films, identities and interactive scenes.</p>
+                </li>
+              </ol>
+            </div>
+          </section>
+
+          <!-- MARQUEE -->
+          <div class="marquee" aria-hidden="true">
+            <div class="marquee__track">
+              <span>Architectural rendering — Product rendering — Animation — Walkthroughs — Interactive presentations — Packaging — Publication design — Brand graphics —&nbsp;</span>
+              <span>Architectural rendering — Product rendering — Animation — Walkthroughs — Interactive presentations — Packaging — Publication design — Brand graphics —&nbsp;</span>
+            </div>
+          </div>
+
+          <!-- ABOUT -->
+          <section class="about section" id="about" aria-label="About">
+            <div class="wrap">
+              <p class="label">About</p>
+              <p class="about__lead display">
+                BUNQ Labs is a digital design &amp; visualisation studio. We build the unbuilt —
+                photoreal renders, motion, and identities that make a project impossible to ignore.
+                Bold where it counts, quiet where it should be.
+              </p>
+            </div>
+          </section>
+
+          <!-- CONTACT -->
+          <footer class="contact section" id="contact" aria-label="Contact">
+            <div class="wrap">
+              <h2 class="contact__line display">Let's make<br />something loud.</h2>
+              <a class="btn btn--pop contact__mail" href="mailto:hello@bunqlabs.example">hello@bunqlabs.example ↗</a>
+              <div class="contact__cols">
+                <div>
+                  <p class="label">Studio</p>
+                  <p>Hyderabad · Remote worldwide</p>
+                </div>
+                <div>
+                  <p class="label">Follow</p>
+                  <p><a href="#" rel="noopener">Instagram</a> · <a href="#" rel="noopener">Behance</a> · <a href="#" rel="noopener">LinkedIn</a></p>
+                </div>
+              </div>
+              <div class="contact__base">
+                <span class="label">© 2026 BUNQ Labs — All rights reserved</span>
+                <span class="label">Local <span class="clock tnum">—</span></span>
+              </div>
+            </div>
+          </footer>
+        </main>
+      </div>
+    </div>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

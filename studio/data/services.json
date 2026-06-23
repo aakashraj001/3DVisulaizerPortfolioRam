@@ -1,0 +1,72 @@
+{
+  "$comment": "The service-family taxonomy — the IA spine. Filters and the Services section derive from this list (never hardcoded). visualisation + visual-identity are active now; the other three are modelled + surfaced as 'In development'. Turning one on = set active:true and add projects whose serviceFamily matches its id (no code change). accent ∈ pop palette: violet|red|lime|lilac.",
+  "families": [
+    {
+      "id": "visualisation",
+      "label": "Visualisation",
+      "blurb": "Photoreal stills, motion and interactive scenes that sell a space before it exists.",
+      "disciplines": [
+        "Architectural rendering",
+        "Product rendering",
+        "Animation",
+        "Walkthroughs",
+        "Interactive presentations"
+      ],
+      "active": true,
+      "accent": "violet",
+      "order": 1
+    },
+    {
+      "id": "visual-identity",
+      "label": "Visual Identity",
+      "blurb": "Brands with a backbone — systems, packaging and publications that travel.",
+      "disciplines": ["Packaging", "Publication design", "Brand graphics"],
+      "active": true,
+      "accent": "red",
+      "order": 2
+    },
+    {
+      "id": "computational-design",
+      "label": "Computational Design",
+      "blurb": "Geometry that thinks for itself — parametric systems and design automation.",
+      "disciplines": [
+        "Grasshopper development",
+        "Parametric modelling",
+        "Generative design",
+        "Design automation",
+        "Analysis workflows"
+      ],
+      "active": false,
+      "accent": "lime",
+      "order": 3
+    },
+    {
+      "id": "immersive-experiences",
+      "label": "Immersive Experiences",
+      "blurb": "Step inside the work — spatial, interactive and exhibition-grade environments.",
+      "disciplines": [
+        "AR experiences",
+        "VR experiences",
+        "Interactive environments",
+        "Virtual exhibitions"
+      ],
+      "active": false,
+      "accent": "lilac",
+      "order": 4
+    },
+    {
+      "id": "digital-fabrication",
+      "label": "Digital Fabrication",
+      "blurb": "From file to object — prototyping, computational products and fabrication.",
+      "disciplines": [
+        "3D printing",
+        "Rapid prototyping",
+        "Computational products",
+        "Fabrication consulting"
+      ],
+      "active": false,
+      "accent": "red",
+      "order": 5
+    }
+  ]
+}

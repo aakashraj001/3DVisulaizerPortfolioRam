@@ -1,0 +1,46 @@
+# Deploy the BUNQ Labs studio variant (studio/) to GitHub Pages.
+# Manual (workflow_dispatch) so it does not race the root app's Pages deploy —
+# one Pages site per repo. Run this when you want the studio variant live;
+# it replaces the Pages content with studio/dist. (Or merge both apps into one
+# artifact: root → /, studio → /studio/, if you want them side by side.)
+name: Deploy studio variant to GitHub Pages
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: studio
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci
+      - run: npm run build
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: studio/dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
